@@ -1,6 +1,0 @@
-# Ignorar salida generada
-/public
-
-# Ignorar logs y sistema
-.DS_Store
-Thumbs.db
