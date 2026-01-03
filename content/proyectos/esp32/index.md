@@ -1,5 +1,6 @@
 ---
 title: "esp32 marauder"
+date: "2025-01-01"
 tags: ["Proyectos"]
 ---
 
