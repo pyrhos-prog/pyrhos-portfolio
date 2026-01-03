@@ -4,7 +4,8 @@ type: "about"
 draft: false
 tags: ["About me"]
 ---
-{{<img src="https://tryhackme-badges.s3.amazonaws.com/Pyrhos.png" alt="Your Image Badge" />}}
+<img src="https://tryhackme-badges.s3.amazonaws.com/Pyrhos.png" alt="Your Image Badge" />
+
 ## Perfil
 
 Estudiante de telecomunicaciones con formación autodidacta y práctica en **ciberseguridad ofensiva**.
