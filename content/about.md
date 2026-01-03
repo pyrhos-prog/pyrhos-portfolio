@@ -4,7 +4,7 @@ type: "about"
 draft: false
 tags: ["About me"]
 ---
-
+{{< github repo="nunocoracao/blowfish" showThumbnail=true >}}
 ## Perfil
 
 Estudiante de telecomunicaciones con formación autodidacta y práctica en **ciberseguridad ofensiva**.
