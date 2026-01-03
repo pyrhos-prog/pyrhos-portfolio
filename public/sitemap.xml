@@ -3,47 +3,47 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <url>
-    <loc>http://localhost:1313/</loc>
+    <loc>http://localhost:1313/pyrhos-portfolio/</loc>
     <lastmod>2026-01-03T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://localhost:1313/blog/</loc>
+    <loc>http://localhost:1313/pyrhos-portfolio/blog/</loc>
     <lastmod>2026-01-03T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://localhost:1313/htb/</loc>
+    <loc>http://localhost:1313/pyrhos-portfolio/htb/</loc>
     <lastmod>2026-01-03T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://localhost:1313/htb/maquina-editor/</loc>
+    <loc>http://localhost:1313/pyrhos-portfolio/htb/maquina-editor/</loc>
     <lastmod>2026-01-03T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://localhost:1313/blog/mongobleed/</loc>
+    <loc>http://localhost:1313/pyrhos-portfolio/blog/mongobleed/</loc>
     <lastmod>2026-01-03T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://localhost:1313/proyectos/</loc>
+    <loc>http://localhost:1313/pyrhos-portfolio/proyectos/</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://localhost:1313/proyectos/esp32/</loc>
+    <loc>http://localhost:1313/pyrhos-portfolio/proyectos/esp32/</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://localhost:1313/about/</loc>
+    <loc>http://localhost:1313/pyrhos-portfolio/about/</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
