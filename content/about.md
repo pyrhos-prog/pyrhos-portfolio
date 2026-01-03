@@ -4,6 +4,10 @@ type: "about"
 draft: false
 tags: ["About me"]
 ---
+
+<iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=2350343" style='border:none;'></iframe>
+
+
 <img src="https://tryhackme-badges.s3.amazonaws.com/Pyrhos.png" alt="Your Image Badge" />
 
 ## Perfil
