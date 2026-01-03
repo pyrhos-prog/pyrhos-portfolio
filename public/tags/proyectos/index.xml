@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Proyectos on Pyrhos</title>
+    <link>http://localhost:1313/tags/proyectos/</link>
+    <description>Recent content in Proyectos on Pyrhos</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>es</language>
+    <managingEditor>youremail@example.com (Osman Martinez @Pyrhos)</managingEditor>
+    <webMaster>youremail@example.com (Osman Martinez @Pyrhos)</webMaster>
+    <copyright>© 2026 Osman Martinez @Pyrhos</copyright>
+    <atom:link href="http://localhost:1313/tags/proyectos/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>esp32 marauder</title>
+      <link>http://localhost:1313/proyectos/esp32/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <author>youremail@example.com (Osman Martinez @Pyrhos)</author>
+      <guid>http://localhost:1313/proyectos/esp32/</guid>
+      <description></description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/proyectos/esp32/featured.png" />
+    </item>
+    
+  </channel>
+</rss>

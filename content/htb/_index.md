@@ -1,0 +1,1 @@
+**Hack The Box**(HTB) es una plataforma en línea diseñada para que profesionales, entusiastas y estudiantes de ciberseguridad practiquen piratería ética y pruebas de penetración. HTB ofrece una amplia gama de desafíos, incluidas máquinas virtuales intencionalmente vulnerables, escenarios de piratería realistas y ejercicios Capture the Flag (CTF).
