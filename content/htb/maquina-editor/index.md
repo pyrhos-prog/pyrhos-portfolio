@@ -131,7 +131,7 @@ Así podremos entrar a la web a traves del dominio.
 
 Al entrar a la página web a traves del puerto 80 vemos lo siguiente:
 
-![](/content/htb/maquina-editor/imgs/web.png)
+![](htb/maquina-editor/imgs/web.png)
 
 Una web de un editor de código compatible con linux y windows, sin nada interesante en la pagina a parte de los dos enlaces de descarga del programa y el apartado Docs, que nos redirige a wiki.editor.htb.
 
@@ -139,7 +139,7 @@ Una web de un editor de código compatible con linux y windows, sin nada interes
 
 Al entrar al subdominio wiki.editor.htb vemos la wiki del editor que habiamos visto anteriormente y que esta hecha con XWiki.
 
-![](/content/htb/maquina-editor/imgs/puerto-8080.png)
+![](htb/maquina-editor/imgs/puerto-8080.png)
 
 Además tambien vemos 2 cosas muy importantes:
 - Un usuario: "Neal Bagwell"
