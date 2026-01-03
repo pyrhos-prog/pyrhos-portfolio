@@ -137,7 +137,7 @@ Una web de un editor de código compatible con linux y windows, sin nada interes
 
 ### Puerto 8080 - Servicio web
 
-Al entrar al subdominio wiki.editor.htb vemos la wiki del editor que habiamos visto anteriormente y que esta hecha con XWiki.
+Al entrar al subdominio **wiki.editor.htb** vemos la wiki del editor que habiamos visto anteriormente y que esta hecha con XWiki.
 
 ![](htb/maquina-editor/imgs/puerto-8080.png)
 
