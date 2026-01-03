@@ -4,8 +4,10 @@ type: "about"
 draft: false
 tags: ["About me"]
 ---
-<img src="https://tryhackme-badges.s3.amazonaws.com/Pyrhos.png" alt="Your Image Badge" />
-
+{{<img src="https://tryhackme-badges.s3.amazonaws.com/Pyrhos.png" alt="Your Image Badge" />}}
+<iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=2350343" style='border:none;'></iframe>
+{{<iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=2350343" style='border:none;'></iframe>
+}}
 ## Perfil
 
 Estudiante de telecomunicaciones con formación autodidacta y práctica en **ciberseguridad ofensiva**.
