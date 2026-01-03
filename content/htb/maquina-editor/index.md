@@ -11,12 +11,12 @@ platform: "Hack The Box"
 
 ## Información general
 
-- **Máquina:** NombreMaquina  
+- **Máquina:** Editor  
 - **Plataforma:** Hack The Box  
 - **Sistema operativo:** Linux / Windows  
-- **Dificultad:** Easy / Medium / Hard  
-- **Tipo:** CTF / Realista  
-- **Estado:** Retirada / Activa  
+- **Dificultad:** Easy  
+- **Tipo:** CTF
+- **Estado:** Retirada 
 
 ---
 
@@ -25,4 +25,9 @@ platform: "Hack The Box"
 ### Escaneo de red
 
 ```bash
-nmap -p- --open -sS -Pn -n -vvv <IP>
+nmap -p- --open --min-rate 5000 -vvv -sS -Pn -n -vvv <10.10.11.80>
+
+```
+
+```bash
+nmap -p- --open --min-rate 5000 
