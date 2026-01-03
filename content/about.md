@@ -4,7 +4,7 @@ type: "about"
 draft: false
 tags: ["About me"]
 ---
-<iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=2350343" style='border:none;'></iframe>
+{{<iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=2350343" style='border:none;'></iframe>}}
 ## Perfil
 
 Estudiante de telecomunicaciones con formación autodidacta y práctica en **ciberseguridad ofensiva**.
