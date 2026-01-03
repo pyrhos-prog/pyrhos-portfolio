@@ -55,80 +55,80 @@ Dependiendo de la configuración, el dispositivo puede incluir:
 
 ### 5.1 Firmware Bruce
 
-El firmware **Bruce** es un software específico diseñado para aprovechar las capacidades inalámbricas del ESP32. Proporciona funcionalidades avanzadas de análisis y monitorización que no están presentes en el firmware genérico del microcontrolador.
+El firmware **Bruce** es un firmware especializado para dispositivos ESP32 orientado al análisis y experimentación con comunicaciones inalámbricas. Está diseñado para aprovechar las capacidades Wi-Fi y BLE del microcontrolador, ofreciendo una interfaz interactiva adaptada a dispositivos con pantalla y controles físicos.
 
-Su diseño está orientado al uso interactivo y al análisis en tiempo real de entornos inalámbricos.
+Bruce permite centralizar distintas funciones de análisis en un único dispositivo, facilitando el aprendizaje práctico y la experimentación en entornos controlados.
 
 ---
 
-### 5.2 Proceso general de carga del firmware
+### 5.2 Proceso general de instalación del firmware
 
-De forma general, el proceso incluye:
+A nivel conceptual, el proceso de instalación del firmware incluye:
 
 - Preparación del entorno de desarrollo
-- Compilación o selección del firmware
-- Carga en el dispositivo
-- Verificación del funcionamiento básico
+- Selección y compilación del firmware adecuado al hardware
+- Carga del firmware en la placa ESP32
+- Verificación del funcionamiento básico del sistema
 
-Este flujo permite validar que el hardware y el software funcionan de forma correcta antes de su uso en laboratorio.
+Este flujo permite validar la correcta integración entre hardware y software antes de su uso en laboratorio.
 
 ---
 
 ## 6. Proceso de construcción
 
-El desarrollo del proyecto se realizó siguiendo un proceso ordenado:
+El desarrollo del proyecto se realizó siguiendo una secuencia ordenada:
 
-1. Selección del hardware adecuado
-2. Montaje físico de los componentes
-3. Preparación del entorno de trabajo
-4. Carga del firmware en el ESP32
+1. Selección del modelo ESP32-2432S028R
+2. Preparación y revisión del hardware
+3. Configuración del entorno de trabajo
+4. Instalación del firmware Bruce
 5. Pruebas iniciales de funcionamiento
-6. Ajustes y validación final
+6. Ajustes y validación final del dispositivo
 
-Este enfoque reduce errores y facilita la identificación de problemas durante el desarrollo.
+Este enfoque facilita la detección de errores y mejora la estabilidad del sistema final.
 
 ---
 
 ## 7. Resultados y aprendizaje
 
-Durante el desarrollo del proyecto se adquirieron conocimientos prácticos en:
+A través de este proyecto se adquirieron conocimientos prácticos en:
 
 - Funcionamiento de redes Wi-Fi y Bluetooth
-- Arquitectura del protocolo 802.11
-- Firmware embebido en microcontroladores
-- Integración hardware-software
-- Resolución de problemas técnicos en entornos reales
+- Arquitectura básica del protocolo 802.11
+- Uso de firmware embebido en microcontroladores
+- Integración de pantalla y controles físicos
+- Resolución de problemas en entornos hardware-software
 
-Además, se identificaron limitaciones propias del hardware y se reforzó la importancia de la planificación y la documentación técnica.
+El proyecto refuerza la importancia de la documentación técnica y de la validación en cada fase del desarrollo.
 
 ---
 
 ## 8. Limitaciones del dispositivo
 
-El ESP32 Marauder presenta varias limitaciones:
+El ESP32 Marauder basado en ESP32-2432S028R presenta varias limitaciones:
 
-- Restricciones de hardware frente a herramientas profesionales
-- Alcance limitado por potencia y antena
+- Capacidad de hardware limitada frente a herramientas profesionales
+- Alcance condicionado por potencia y antena
 - Dependencia del firmware para funcionalidades avanzadas
-- Uso enfocado a laboratorio, no a entornos productivos
+- Uso orientado a laboratorio y aprendizaje, no a entornos productivos
 
-Estas limitaciones deben tenerse en cuenta al evaluar los resultados obtenidos.
+Estas limitaciones deben considerarse al interpretar los resultados obtenidos.
 
 ---
 
 ## 9. Posibles mejoras futuras
 
-Entre las mejoras consideradas se incluyen:
+Algunas mejoras planteadas para el proyecto son:
 
 - Optimización del consumo energético
-- Mejora de la interfaz de usuario
+- Mejora de la experiencia de usuario en pantalla
 - Integración con otros dispositivos de laboratorio
-- Ampliación del análisis combinado con entornos virtuales
+- Uso combinado con entornos virtualizados para análisis más amplios
 
-Estas mejoras permitirían ampliar las capacidades formativas del proyecto.
+Estas mejoras permitirían ampliar el valor formativo del dispositivo.
 
 ---
 
 ## 10. Conclusión
 
-La construcción del ESP32 Marauder ha permitido aplicar conocimientos teóricos a un proyecto práctico, consolidando habilidades en redes, hardware embebido y ciberseguridad ofensiva. El proyecto se integra como una experiencia formativa relevante dentro de un perfil técnico orientado a la auditoría y análisis de sistemas inalámbricos.
+La construcción de un ESP32 Marauder basado en la placa **ESP32-2432S028R** y el uso del firmware **Bruce** ha permitido aplicar conocimientos teóricos a un proyecto práctico, consolidando habilidades en redes inalámbricas, hardware embebido y ciberseguridad ofensiva. El proyecto se integra como una experiencia técnica relevante dentro de un perfil orientado a la auditoría y análisis de sistemas inalámbricos.
