@@ -117,7 +117,7 @@ Con este segundo escaneo vemos mas información sobre cada puerto abierto
 | /xwiki/bin/cancel/ 
 | /xwiki/bin/delete/
 | /xwiki/bin/deletespace/ 
-|_/xwiki/bin/undelete/
+| /xwiki/bin/undelete/
 ```
 ### /etc/hosts
 Ahora vamos añadir el dominio encontrado anteriormente al /etc/hosts para que el sistema traduzca la IP de la maquina a ese dominio.
@@ -139,7 +139,7 @@ Una web de un editor de código compatible con linux y windows, sin nada interes
 
 Al entrar al subdominio **wiki.editor.htb** vemos la wiki del editor que habiamos visto anteriormente y que esta hecha con XWiki.
 
-![](htb/maquina-editor/imgs/puerto-8080.png)
+![](imgs-editor/puerto-8080.png)
 
 Además tambien vemos 2 cosas muy importantes:
 - Un usuario: "Neal Bagwell"
@@ -169,5 +169,7 @@ Si buscamos la version de XWiki que utiliza la web podemos ver que hay una vulne
 
 [PoC CVE-2025-24893 Rev Shell](https://github.com/AzureADTrent/CVE-2025-24893-Reverse-Shell)
 
-
+{{< button href="[#button](https://github.com/AzureADTrent/CVE-2025-24893-Reverse-Shell)" target="_self" >}}
+PoC CVE-2025-24893 Rev Shell
+{{< /button >}}
 
