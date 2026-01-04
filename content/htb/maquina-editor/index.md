@@ -52,7 +52,7 @@ Nmap done: 1 IP address (1 host up) scanned in 15.22 seconds
 El escaneo nos muestra 3 puertos abierto:
 - El puerto 22 con un **ssh**
 - El puerto 80 con un una web **http**
-- El puerto 80080 con un proxy **http**
+- El puerto 8080 con un proxy **http**
 
 Ahora vamos a escanear los puertos abiertos en busca de mas información.
 
@@ -303,7 +303,7 @@ xwiki@editor:/usr/lib/xwiki-jetty$ cat /usr/lib/xwiki/WEB-INF/hibernate.cfg.xml 
     <property name="hibernate.connection.password"></property>
 
 ```
-Con la primera contraseña nos podemos conectar por **SSH** con el usuario **oliver**.
+La contraseña encontrada en **hibernate.cfg.xml** corresponde a la base de datos. En este caso, el usuario **oliver** reutiliza la misma contraseña para **SSH**, lo que permite el acceso al sistema.
 
 ![](imgs-editor/ssh.png)
 
