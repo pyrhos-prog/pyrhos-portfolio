@@ -1,5 +1,5 @@
 ---
-title: "MongoBleed: Exposición y abuso de instancias MongoDB sin autenticación"
+title: "MongoBleed: Exposición y abuso de MongoDB sin autenticación"
 date: 2026-01-03
 draft: false
 tags: ["mongodb", "databases", "cve", "pentesting", "infosec"]
