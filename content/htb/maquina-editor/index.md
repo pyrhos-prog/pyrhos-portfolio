@@ -173,3 +173,4 @@ Si buscamos la version de XWiki que utiliza la web podemos ver que hay una vulne
 PoC CVE-2025-24893 Rev Shell
 {{< /button >}}
 
+{{< github repo="AzureADTrent/CVE-2025-24893-Reverse-Shell"showThumbnail=true >}}
