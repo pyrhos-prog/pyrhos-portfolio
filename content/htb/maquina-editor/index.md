@@ -131,7 +131,7 @@ Así podremos entrar a la web a traves del dominio.
 
 Al entrar a la página web a traves del puerto 80 vemos lo siguiente:
 
-![](htb/maquina-editor/imgs/web.png)
+![](imgs-editor/web.png)
 
 Una web de un editor de código compatible con linux y windows, sin nada interesante en la pagina a parte de los dos enlaces de descarga del programa y el apartado Docs, que nos redirige a wiki.editor.htb.
 

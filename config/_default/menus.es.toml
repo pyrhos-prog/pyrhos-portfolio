@@ -16,7 +16,7 @@
   weight = 10
 
 [[main]]
-  name = "About Me"
+  name = "Sobre Mi"
   pageRef = "about.md"
   weight = 20
 
