@@ -1,5 +1,6 @@
 ---
 title: "Sobre mí"
+date: "2026-01-01"
 type: "about"
 draft: false
 tags: ["About me"]
