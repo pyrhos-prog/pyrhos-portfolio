@@ -1,6 +1,6 @@
 ---
 title: "CTF - Nombre de la máquina"
-date: YYYY-MM-DD
+date: 2026-01-05
 draft: false
 tags: ["ctf", "pentesting"]
 categories: ["Writeups"]
