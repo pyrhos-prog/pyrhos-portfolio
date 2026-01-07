@@ -17,7 +17,7 @@ title = "Pyrhos"
  [params.author]
    name = "Osman Martinez @Pyrhos"
    email = "youremail@example.com"
-   image = "img/perfil.png"   
+   image = "img/perfil.gif"   
    imageQuality = 96
    headline = "Red Team | OSINT | CTF Player"
    bio = "Estudiante de Telecomunicaciones y Ciberseguridad"
