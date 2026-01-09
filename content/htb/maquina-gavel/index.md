@@ -1,10 +1,10 @@
 ---
-title: "CTF - Nombre de la máquina"
+title: "CTF - Gavel"
 date: 2026-01-05
 draft: false
 tags: ["ctf", "pentesting"]
 categories: ["Writeups"]
-difficulty: "Easy | Medium | Hard"
+difficulty: "Medium"
 os: "Linux | Windows"
 platform: "Hack The Box | TryHackMe | VulnHub"
 ---
