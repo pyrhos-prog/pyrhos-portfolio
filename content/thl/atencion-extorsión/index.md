@@ -34,6 +34,20 @@ Me dirijo a ustedes con un asunto de extrema gravedad que requiere su atención 
 
 ![](imgs-atencion-extorsion/correo-extorsion.jpg)
 
+### Información relevante:
+> De este correo podemos sacar basante información.
+
+**Nombre del grupo de extorsionadores:** los que saben todo
+
+**Fecha:** 03-Oct-2024 2:30:47
+
+**Cantidad transferida:** 300 Eth
+
+**Tiempo para transferirla:** 24 horas
+
+**Wallet:** OxB0C5FC58010D79eAFAD34854F4346dBD8068D0E1
+
+
 ### Preguntas a resolver
 
 1. ¿Cuál fue la cantidad exacta transferida? 
@@ -43,15 +57,34 @@ Me dirijo a ustedes con un asunto de extrema gravedad que requiere su atención 
 5. ¿En qué fecha y hora se realizó la operación?
 6. ¿Cuál es el hash de la transacción?
 
+
 ## Procedimiento
 
 ### Dirección de la billetera
 
 Vamos a empezar buscando información sobre la direccion de la billetera del correo.
 
-- Direccion: OxB0C5FC58010D79eAFAD34854F4346dBD8068D0E1
-
-![](imgs-atencion-extorsion/etherscan.png)
+- Direccion: 0xB0C5Fc58010D79eAFAD34854F4346dBD8068D0E1
 
 
 Al introducir la wallet en etherscan podemos ver las transacciones que se han hecho a través de ella.
+
+![](imgs-atencion-extorsion/etherscan.png)
+
+Ahora vamos a filtrar las transacciones por la fecha del correo, que sean transacciones solo de entrada 
+
+![](imgs-atencion-extorsion/filtro-etherscan.png)
+
+Nos sale una transaccion de **300.9983** ETH, encaja perfectamente asi que vamos a ver los detalles. 
+
+![](imgs-atencion-extorsion/detalles-transaccion.png)
+
+En los detalles vemos que esta toda la información necesaria para resolver las pregunta del reto.
+
+
+1. ¿Cuál fue la cantidad exacta transferida? 300.9983 ETH
+2. ¿Cuál fue la dirección de envio? 0x28c6c06298d514db089934071355e5743bf21d60
+3. ¿Cuál fue la dirección de recepción? 0xB0C5Fc58010D79eAFAD34854F4346dBD8068D0E1
+4. ¿Qué plataforma fue utilizada para la operación? Binance
+5. ¿En qué fecha y hora se realizó la operación? Oct-03-2024 02:30:47 PM
+6. ¿Cuál es el hash de la transacción? 0x00ae9dd1f5456f01c0b2458dcc88596a7dd081a2cdf2f581f702fa6333ba777a
