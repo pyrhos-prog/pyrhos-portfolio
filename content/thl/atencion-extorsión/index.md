@@ -45,7 +45,7 @@ Me dirijo a ustedes con un asunto de extrema gravedad que requiere su atención 
 
 **Tiempo para transferirla:** 24 horas
 
-**Wallet:** OxB0C5FC58010D79eAFAD34854F4346dBD8068D0E1
+**Wallet:** 0xB0C5Fc58010D79eAFAD34854F4346dBD8068D0E1
 
 
 ### Preguntas a resolver
@@ -81,10 +81,9 @@ Nos sale una transaccion de **300.9983** ETH, encaja perfectamente asi que vamos
 
 En los detalles vemos que esta toda la información necesaria para resolver las pregunta del reto.
 
-
-1. ¿Cuál fue la cantidad exacta transferida? 300.9983 ETH
-2. ¿Cuál fue la dirección de envio? 0x28c6c06298d514db089934071355e5743bf21d60
-3. ¿Cuál fue la dirección de recepción? 0xB0C5Fc58010D79eAFAD34854F4346dBD8068D0E1
-4. ¿Qué plataforma fue utilizada para la operación? Binance
-5. ¿En qué fecha y hora se realizó la operación? Oct-03-2024 02:30:47 PM
-6. ¿Cuál es el hash de la transacción? 0x00ae9dd1f5456f01c0b2458dcc88596a7dd081a2cdf2f581f702fa6333ba777a
+**1. ¿Cuál fue la cantidad exacta transferida?** 300.9983 ETH
+**2. ¿Cuál fue la dirección de envío?** 0x28c6c06298d514db089934071355e5743bf21d60
+**3. ¿Cuál fue la dirección de recepción?** 0xB0C5Fc58010D79eAFAD34854F4346dBD8068D0E1
+**4. ¿Qué plataforma fue utilizada para la operación?** Binance
+**5. ¿En qué fecha y hora se realizó la operación?** Oct-03-2024 02:30:47 PM
+**6. ¿Cuál es el hash de la transacción?** 0x00ae9dd1f5456f01c0b2458dcc88596a7dd081a2cdf2f581f702fa6333ba777a
