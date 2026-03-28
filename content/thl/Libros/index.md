@@ -58,23 +58,23 @@ Algo se debió torcer... Íbamos hablando por teléfono cuando, a pocos metros, 
 
 Vamos a empezar buscando tiendas de libros en Gran Vía para saber donde fue el último lugar al que entró y poder seguir la pista.
 
-![](Libros/tienda-libros.png)
+![](imgs-libros/tienda-libros.png)
 
 - la casa del libro es la opción mas probable.
 
 Ahora vamos a buscar en google maps la casa del libro en abril de 2024 para buscar información relevante.
 
-![](Libros/tienda-libros.png)
+![](imgs-libros/tienda-libros.png)
 
 Indagando un poco, encontramos un cartel de una exposición el Dia 28 de abril de 2024 y encima de ella un logo de un tomate.
 
 Ahora vamos a buscar información sobre The Hackers Labs
 
-![](Libros/web.png)
+![](imgs-libros/web.png)
 
 Dentro de la web al investigarla encontramos un logo de un tomate 
 
-![](Libros/logo.png)
+![](imgs-libros/logo.png)
 
 Ahora vamos a buscar en los metadatos de la imagen información interesante.
 
@@ -108,7 +108,7 @@ Encontramos un nombre, Aurelio Bravo.
 
 Buscando en el instagram de The Hackers Labs las publicaciones de la fecha de la exposicion encontramos una publicacion.
 
-![](Libros/social.png)
+![](imgs-libros/social.png)
 
 En ella vemos algo que parece ser base64.
 
