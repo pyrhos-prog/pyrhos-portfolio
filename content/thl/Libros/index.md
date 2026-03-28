@@ -36,7 +36,7 @@ Algo se debió torcer... Íbamos hablando por teléfono cuando, a pocos metros, 
 > hay información importante en esta descripción
 
 
-**Último lugar visto:** Gran via, cerca del Primar
+**Último lugar visto:** Gran via, cerca del Primark
 
 **Fecha:** Abril de 2024
 
