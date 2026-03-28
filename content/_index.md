@@ -1,1 +1,0 @@
-**The Hackers Labs**(THL) es una plataforma en línea diseñada para que profesionales, entusiastas y estudiantes de ciberseguridad practiquen piratería ética y pruebas de penetración. THL ofrece una amplia gama de desafíos, incluidas máquinas virtuales intencionalmente vulnerables, escenarios de piratería realistas y ejercicios Capture the Flag (CTF).
