@@ -74,7 +74,7 @@ Ahora vamos a buscar información sobre The Hackers Labs
 
 Dentro de la web al investigarla encontramos un logo de un tomate 
 
-![](imgs-libros/logo.png)
+![](imgs-libros/exposicion.png)
 
 Ahora vamos a buscar en los metadatos de la imagen información interesante.
 
