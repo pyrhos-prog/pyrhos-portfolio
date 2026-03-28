@@ -64,7 +64,7 @@ Vamos a empezar buscando tiendas de libros en Gran Vía para saber donde fue el 
 
 Ahora vamos a buscar en google maps la casa del libro en abril de 2024 para buscar información relevante.
 
-![](imgs-libros/tienda-libros.png)
+![](imgs-libros/cartel.png)
 
 Indagando un poco, encontramos un cartel de una exposición el Dia 28 de abril de 2024 y encima de ella un logo de un tomate.
 
