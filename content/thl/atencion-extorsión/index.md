@@ -51,6 +51,7 @@ Vamos a empezar buscando información sobre la direccion de la billetera del cor
 
 - Direccion: OxB0C5FC58010D79eAFAD34854F4346dBD8068D0E1
 
-!()[imgs-atencion-extorsion/etherscan.png]
+![](imgs-atencion-extorsion/etherscan.png)
 
-Al introducir la wallet en etherscan podemos ver las transacciones que se han hecho a través de ella
+
+Al introducir la wallet en etherscan podemos ver las transacciones que se han hecho a través de ella.
