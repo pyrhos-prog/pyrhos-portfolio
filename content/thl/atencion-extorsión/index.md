@@ -12,12 +12,10 @@ platform: "The Hackers Labs"
 
 ## Información general
 
-* **Máquina:** [Nombre]
-* **Plataforma:** [Hack The Box / TryHackMe / etc.]
-* **Sistema operativo:** [OS]
-* **Dificultad:** [Dificultad]
-* **Tipo:** CTF
-* **Estado:** [Activa / Retirada]
+* **Máquina:** ¡Atención Extorsion!
+* **Plataforma:** The Hackers Labs
+* **Dificultad:** Avandazdo
+* **Tipo:** OSINT
 
 ---
 
@@ -35,3 +33,24 @@ Me dirijo a ustedes con un asunto de extrema gravedad que requiere su atención 
 > En la captura de pantalla adjunta se encuentra la dirección de la billetera involucrada. Recomiendo que se copie esta información en un formato de texto, ya que es una captura de pantalla. Utilizar esta dirección será clave para resolver gran parte del problema. Agradezco de antemano su atención y apoyo en esta delicada situación.
 
 ![](imgs-atencion-extorsion/correo-extorsion.jpg)
+
+### Preguntas a resolver
+
+1. ¿Cuál fue la cantidad exacta transferida? 
+2. ¿Cuál fue la dirección de envío?
+3. ¿Cuál fue la dirección de recepción?
+4. ¿Qué plataforma fue utilizada para la operación?
+5. ¿En qué fecha y hora se realizó la operación?
+6. ¿Cuál es el hash de la transacción?
+
+## Procedimiento
+
+### Dirección de la billetera
+
+Vamos a empezar buscando información sobre la direccion de la billetera del correo.
+
+- Direccion: OxB0C5FC58010D79eAFAD34854F4346dBD8068D0E1
+
+!()[imgs-atencion-extorsion/etherscan.png]
+
+Al introducir la wallet en etherscan podemos ver las transacciones que se han hecho a través de ella
