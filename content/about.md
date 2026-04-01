@@ -6,7 +6,22 @@ draft: false
 tags: ["About me"]
 ---
 
-<img src="https://tryhackme-badges.s3.amazonaws.com/Pyrhos.png" alt="TryHackMe Badge" />
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <div style="height:auto; width: 350px;">
+    <a href="https://app.hackthebox.com/profile/469161">
+      <img src="https://www.hackthebox.eu/badge/image/469161" alt="HTB Profile Badge" 
+        style="width: 350px; height: 78px; border-radius: 15px; display: block; box-shadow: 0 0 5px 1px rgba(43, 15, 167, 0.7);"/>
+    </a>
+  </div>
+
+  <div style="height:auto; width: 350px;">
+    <a href="https://tryhackme.com/r/p/pyrhos01">
+      <img src="https://tryhackme-badges.s3.amazonaws.com/Pyrhos.png" alt="HTB Profile Badge" 
+        style="width: 350px; height: 78px; border-radius: 15px; display: block; box-shadow: 0 0 5px 1px rgba(43, 15, 167, 0.7);"/>
+    </a>
+  </div>
+</div>
+
 
 ## Perfil
 
