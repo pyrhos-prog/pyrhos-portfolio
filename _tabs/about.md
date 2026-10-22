@@ -5,7 +5,7 @@ icon: fas fa-info-circle
 order: 7
 ---
 
-<div class="hx-about-ava"><img src="/assets/img/perfil.png" alt="Pyrhos"></div>
+<div class="hx-about-ava"><img src="{{ '/assets/img/perfil.png' | relative_url }}" alt="Pyrhos"></div>
 
 ## Quién soy
 
@@ -13,12 +13,21 @@ Soy **Pyrhos**, estudiante de **Instalaciones de Telecomunicaciones** con formac
 
 Me apasiona el trabajo en laboratorios, la enumeración exhaustiva, el análisis de sistemas, la explotación controlada de vulnerabilidades y la creación de proyectos técnicos (tanto de software y automatización como de hardware embebido tipo ESP32).
 
-<div style="display: flex; gap: 1rem; margin: 1.5rem 0; flex-wrap: wrap; justify-content: center;">
-  <a href="https://app.hackthebox.com/profile/469161" target="_blank" rel="noopener" style="flex: 1; min-width: 280px; max-width: 350px;">
-    <img src="https://www.hackthebox.eu/badge/image/469161" alt="Hack The Box Profile Badge" style="width: 100%; border-radius: 12px; display: block; box-shadow: 0 4px 14px rgba(0,0,0,0.4);" />
+<div style="clear: both;"></div>
+
+<div class="hx-badges-showcase">
+  <a class="hx-badge-card hx-badge-card-htb" href="https://app.hackthebox.com/profile/469161" target="_blank" rel="noopener" title="Ver perfil en Hack The Box">
+    <div class="hx-badge-card-title"><span class="hx-icon-htb"></span> Hack The Box</div>
+    <div class="hx-badge-img-wrap">
+      <img src="https://www.hackthebox.eu/badge/image/469161" alt="Hack The Box Profile Badge" loading="lazy" />
+    </div>
   </a>
-  <a href="https://tryhackme.com/r/p/pyrhos01" target="_blank" rel="noopener" style="flex: 1; min-width: 280px; max-width: 350px;">
-    <img src="https://tryhackme-badges.s3.amazonaws.com/Pyrhos.png" alt="TryHackMe Profile Badge" style="width: 100%; border-radius: 12px; display: block; box-shadow: 0 4px 14px rgba(0,0,0,0.4);" />
+
+  <a class="hx-badge-card hx-badge-card-thm" href="https://tryhackme.com/r/p/pyrhos01" target="_blank" rel="noopener" title="Ver perfil en TryHackMe">
+    <div class="hx-badge-card-title"><span class="hx-icon-thm"></span> TryHackMe</div>
+    <div class="hx-badge-img-wrap">
+      <img src="https://tryhackme-badges.s3.amazonaws.com/Pyrhos.png" alt="TryHackMe Profile Badge" loading="lazy" />
+    </div>
   </a>
 </div>
 
