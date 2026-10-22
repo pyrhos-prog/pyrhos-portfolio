@@ -825,10 +825,10 @@
       const empty = document.getElementById(bar.dataset.empty);
       const count = bar.querySelector('.hx-fbar-count b');
       const form = bar.querySelector('.hx-search');
-      const input = form.querySelector('input');
+      const input = form ? form.querySelector('input') : null;
       const reset = bar.querySelector('.hx-fbar-reset');
       const tagBox = document.getElementById('hx-tagfilter');
-      const state = { diff: 'all', os: 'all', platform: 'all', tag: 'all' };
+      const state = { diff: 'all', os: 'all', platform: 'all', tag: 'all', q: '' };
 
       function setTag(tag) {
         state.tag = tag ? tag.toLowerCase() : 'all';
@@ -845,20 +845,30 @@
       function apply() {
         let visible = 0;
         items.forEach((el) => {
+          const name = normalize(el.dataset.name || '');
+          const matchesSearch = !state.q || name.includes(state.q);
           const ok =
+            matchesSearch &&
             (state.diff === 'all' || el.dataset.diff === state.diff) &&
             (state.os === 'all' || el.dataset.os === state.os) &&
             (state.platform === 'all' || el.dataset.platform === state.platform) &&
             (state.tag === 'all' || (el.dataset.tags || '').split(' ').includes(state.tag));
           el.hidden = !ok;
-          if (ok) visible++;
+          if (!ok) {
+            el.style.display = 'none';
+          } else {
+            el.style.display = '';
+            visible++;
+          }
         });
         sections.forEach((sec) => {
-          sec.hidden = !sec.querySelector('[data-name]:not([hidden])');
+          const hasVisible = !!sec.querySelector('[data-name]:not([hidden])');
+          sec.hidden = !hasVisible;
+          sec.style.display = hasVisible ? '' : 'none';
         });
-        count.textContent = visible;
+        if (count) count.textContent = visible;
         if (empty) empty.classList.toggle('is-visible', items.length > 0 && visible === 0);
-        reset.hidden = state.diff === 'all' && state.os === 'all' && state.platform === 'all';
+        if (reset) reset.hidden = state.diff === 'all' && state.os === 'all' && state.platform === 'all' && !state.q;
       }
 
       function select(group, value) {
@@ -880,49 +890,38 @@
         });
       });
 
-      reset.addEventListener('click', () => {
-        groups.forEach((g) => select(g, 'all'));
-        setTag(null);
-        history.replaceState(null, '', location.pathname);
-        apply();
-      });
+      if (input) {
+        input.addEventListener('input', () => {
+          state.q = normalize(input.value.trim());
+          apply();
+        });
+      }
+
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          if (input) {
+            state.q = normalize(input.value.trim());
+            apply();
+          }
+        });
+      }
+
+      if (reset) {
+        reset.addEventListener('click', () => {
+          groups.forEach((g) => select(g, 'all'));
+          setTag(null);
+          state.q = '';
+          if (input) input.value = '';
+          history.replaceState(null, '', location.pathname);
+          apply();
+        });
+      }
 
       // Filtro por etiqueta desde la URL (?tag=windows), p. ej. desde el panel
       const urlTag = new URLSearchParams(location.search).get('tag');
       if (urlTag) setTag(urlTag);
       apply();
-
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const raw = input.value.trim();
-        if (!raw) {
-          input.focus();
-          return;
-        }
-        const q = normalize(raw);
-        // Primero coincidencia exacta; si no, las que contengan el texto
-        let found = items.filter((el) => normalize(el.dataset.name) === q);
-        if (!found.length) found = items.filter((el) => normalize(el.dataset.name).includes(q));
-
-        if (!found.length) {
-          notFound(raw);
-          return;
-        }
-
-        // Si los filtros la ocultan, se quitan para poder enseñarla
-        if (found.every((el) => el.hidden)) {
-          groups.forEach((g) => select(g, 'all'));
-          apply();
-        }
-        const shown = found.filter((el) => !el.hidden);
-        items.forEach((el) => el.classList.remove('hx-found'));
-        shown.forEach((el) => {
-          void el.offsetWidth;
-          el.classList.add('hx-found');
-        });
-        shown[0].scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
-        setTimeout(() => shown.forEach((el) => el.classList.remove('hx-found')), 3000);
-      });
     });
 
     // Atajo: "/" enfoca el buscador
