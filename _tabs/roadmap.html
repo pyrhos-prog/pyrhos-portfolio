@@ -1,0 +1,117 @@
+---
+title: Roadmap
+icon: fas fa-map
+order: 2
+---
+
+{%- comment -%}
+  Los datos salen de _data/cpts.yml. Un post con `machine: <Nombre>` y
+  `platform: HackTheBox` en su front matter se enlaza automáticamente.
+{%- endcomment -%}
+
+{%- assign total = 0 -%}
+{%- assign solved = 0 -%}
+
+{%- capture tables -%}
+  {%- assign p = site.data.cpts -%}
+  {%- for s in p.sections -%}
+    <section class="hx-rm-platform">
+      <h2 id="{{ s.id }}">{{ s.title }} <span class="hx-rm-count">{{ s.machines.size }}</span></h2>
+      <table class="hx-rm-table">
+        <thead>
+          <tr>
+            <th>Máquina</th>
+            <th>SO</th>
+            <th>Dificultad</th>
+            <th class="hx-rm-rating-h" title="Dificultad votada por la comunidad en HackTheBox">Dificultad votada</th>
+            <th>Estado</th>
+            <th>Write-up</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for m in s.machines -%}
+            {%- assign total = total | plus: 1 -%}
+            {%- assign wp = site.posts | where: 'machine', m.name | where: 'platform', p.platform | first -%}
+            {%- if wp -%}
+              {%- assign status = wp.status | default: 'Resuelta' -%}
+            {%- else -%}
+              {%- assign status = m.status | default: 'Pendiente' -%}
+            {%- endif -%}
+            {%- if status == 'Resuelta' -%}{%- assign solved = solved | plus: 1 -%}{%- endif -%}
+            {%- assign os_down = m.os | downcase -%}
+            {%- if os_down contains 'windows' -%}{%- assign os_key = 'windows' -%}
+            {%- elsif os_down contains 'linux' -%}{%- assign os_key = 'linux' -%}
+            {%- else -%}{%- assign os_key = 'otros' -%}{%- endif -%}
+            <tr data-name="{{ m.name | downcase }}" data-diff="{{ m.difficulty | downcase }}" data-os="{{ os_key }}" data-platform="{{ p.platform | downcase | remove: ' ' }}">
+              {%- comment -%}
+                Si la máquina tiene write-up, el nombre lleva a él; si no, a su
+                página de HackTheBox.
+              {%- endcomment -%}
+              <td class="hx-rm-name">
+                {%- if wp -%}
+                  <a href="{{ wp.url | relative_url }}" title="Leer el write-up de {{ m.name }}">{{ m.name }}</a>
+                {%- else -%}
+                  <a href="https://app.hackthebox.com/machines/{{ m.name | uri_escape }}" target="_blank" rel="noopener" title="Abrir {{ m.name }} en HackTheBox">{{ m.name }}</a>
+                {%- endif -%}
+              </td>
+              <td class="hx-rm-os">
+                {%- if os_down contains 'windows' %}<i class="fab fa-windows" aria-hidden="true"></i>{% endif -%}
+                {%- if os_down contains 'linux' %}<i class="fab fa-linux" aria-hidden="true"></i>{% endif -%}
+                {%- if os_down contains 'bsd' %}<i class="fab fa-freebsd" aria-hidden="true"></i>{% endif -%}
+                {%- if os_down contains 'solaris' %}<i class="fas fa-sun" aria-hidden="true"></i>{% endif %}
+                {{ m.os }}
+              </td>
+              <td><span class="hx-badge hx-diff-{{ m.difficulty | downcase }}">{{ m.difficulty }}</span></td>
+              <td class="hx-rm-chart">{% include hx-htb-chart.html machine=m.name platform=p.platform na=true %}</td>
+              <td>
+                {%- if wp.proof -%}
+                  <a class="hx-status hx-status-{{ status | downcase | replace: ' ', '-' }} hx-status-proof" href="{{ wp.proof }}" target="_blank" rel="noopener" title="Comprobar máquina comprometida">{{ status }} <i class="fas fa-shield-halved" aria-hidden="true"></i></a>
+                {%- else -%}
+                  <span class="hx-status hx-status-{{ status | downcase | replace: ' ', '-' }}">{{ status }}</span>
+                {%- endif -%}
+              </td>
+              <td>
+                {%- if wp -%}
+                  <a class="hx-rm-link" href="{{ wp.url | relative_url }}">Leer <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+                {%- else -%}
+                  <span class="hx-rm-muted">—</span>
+                {%- endif -%}
+              </td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </section>
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- assign pct = solved | times: 100.0 | divided_by: total | round: 1 -%}
+
+<div class="hx-roadmap">
+  <header class="hx-rm-hero">
+    <p class="hx-rm-path">~/roadmap $ cat cpts.md</p>
+    <p class="hx-rm-title" data-text="Preparación CPTS — Hack The Box">Preparación CPTS — Hack The Box</p>
+    <p class="hx-rm-sub">Máquinas de Hack The Box orientadas a la certificación Certified Penetration Testing Specialist</p>
+
+    <div class="hx-rm-stats">
+      <div><span class="hx-rm-num">{{ solved }}</span><span>resueltas</span></div>
+      <div><span class="hx-rm-num">{{ total }}</span><span>máquinas</span></div>
+    </div>
+
+    <div class="hx-rm-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ pct }}" aria-label="Progreso">
+      <span style="--hx-pct: {{ pct }}%"></span>
+    </div>
+    <p class="hx-rm-pct">{{ pct }}% completado</p>
+  </header>
+
+  {% include hx-filterbar.html target="hx-rm-list" empty="hx-rm-empty" total=total %}
+
+  <div id="hx-rm-list">
+    {{ tables }}
+  </div>
+
+  <div class="hx-empty hx-no-results" id="hx-rm-empty">
+    <i class="fas fa-ghost"></i>
+    Ninguna máquina coincide con la búsqueda.
+  </div>
+</div>

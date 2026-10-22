@@ -1,0 +1,86 @@
+---
+title: Historial
+icon: fas fa-chart-line
+order: 6
+permalink: /maquinas/
+---
+
+{% assign machines = site.posts | where_exp: 'p', "p.categories contains 'Writeups'" %}
+
+<p class="hx-lead">Panel de progreso: todas las máquinas <b>conquistadas</b> en gráficas. Pulsa una columna, un trozo del queso o un mes para <b>filtrar</b> — se combinan entre sí (como en un dashboard).</p>
+
+{% if machines.size > 0 %}
+  <div id="hx-maqdash" data-total="{{ machines.size }}">
+
+    <div class="hx-maq-head">
+      <div class="hx-maq-counter">
+        <span class="hx-maq-count" id="hx-maq-count" data-total="{{ machines.size }}">{{ machines.size }}</span>
+        <span class="hx-maq-countlead" id="hx-maq-countlead">máquinas resueltas</span>
+      </div>
+      <button type="button" class="hx-maq-clear" id="hx-maq-clear" hidden><i class="fas fa-xmark" aria-hidden="true"></i> Limpiar filtros</button>
+    </div>
+
+    <div class="hx-maq-grid">
+      <section class="hx-maq-card hx-maq-card-donut">
+        <h3 class="hx-maq-cap">Por dificultad</h3>
+        <div class="hx-maq-donutwrap" id="hx-maq-donut"></div>
+      </section>
+
+      <section class="hx-maq-card">
+        <h3 class="hx-maq-cap">Columnas por dificultad</h3>
+        <div class="hx-maq-cols" id="hx-maq-cols"></div>
+      </section>
+
+      <section class="hx-maq-card hx-maq-card-wave">
+        <h3 class="hx-maq-cap">Progreso en el tiempo</h3>
+        <div class="hx-maq-wavewrap" id="hx-maq-wave"></div>
+      </section>
+
+      <section class="hx-maq-card hx-maq-card-mini">
+        <h3 class="hx-maq-cap">Sistema</h3>
+        <div class="hx-maq-mini" id="hx-maq-os"></div>
+      </section>
+
+      <section class="hx-maq-card hx-maq-card-mini">
+        <h3 class="hx-maq-cap">Plataforma</h3>
+        <div class="hx-maq-mini" id="hx-maq-plat"></div>
+      </section>
+    </div>
+
+    <section class="hx-maq-card hx-maq-histwrap">
+      <div class="hx-maq-histhead">
+        <h3 class="hx-maq-cap">Historial <span class="hx-maq-listcount" id="hx-maq-listcount"></span></h3>
+        <div class="hx-maq-search">
+          <i class="fas fa-search" aria-hidden="true"></i>
+          <input id="hx-maq-search" type="search" placeholder="Buscar máquina…" autocomplete="off" spellcheck="false" aria-label="Buscar máquina por nombre">
+        </div>
+      </div>
+      <ul class="hx-maq-list" id="hx-maq-list"></ul>
+      <p class="hx-maq-emptylist" id="hx-maq-empty" hidden>Ninguna máquina coincide con los filtros.</p>
+    </section>
+  </div>
+
+  {%- comment -%} Datos para el dashboard (los dibuja assets/js/hacker.js) {%- endcomment -%}
+  <script type="application/json" id="hx-maq-data">
+[
+{% for post in machines -%}
+  {%- assign osd = post.os | default: '' | downcase -%}
+  {%- if osd contains 'windows' -%}{%- assign osk = 'windows' -%}{%- elsif osd contains 'linux' -%}{%- assign osk = 'linux' -%}{%- else -%}{%- assign osk = 'otros' -%}{%- endif -%}
+  {%- assign pld = post.platform | default: '' | downcase | remove: ' ' -%}
+  {%- if pld == 'investigacion' -%}{%- assign plk = 'investigacion' -%}{%- else -%}{%- assign plk = 'hackthebox' -%}{%- endif -%}
+{"name":{{ post.title | jsonify }},"url":{{ post.url | relative_url | jsonify }},"diff":{{ post.difficulty | default: '' | downcase | jsonify }},"os":"{{ osk }}","platform":"{{ plk }}","iso":"{{ post.date | date: '%Y-%m-%d' }}","disp":"{{ post.date | date: '%d/%m/%Y' }}","accent":{{ post.accent | default: '' | jsonify }}}{%- unless forloop.last -%},{%- endunless %}
+{% endfor -%}
+]
+  </script>
+
+  <noscript>
+    <ul class="hx-maq-nojs">
+      {% for post in machines %}<li><a href="{{ post.url | relative_url }}">{{ post.title }}</a> — {{ post.difficulty }} · {{ post.date | date: '%d/%m/%Y' }}</li>{% endfor %}
+    </ul>
+  </noscript>
+{% else %}
+  <div class="hx-empty">
+    <i class="fas fa-server"></i>
+    Todavía no hay máquinas publicadas.
+  </div>
+{% endif %}

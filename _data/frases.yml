@@ -1,0 +1,34 @@
+# Frases que se van escribiendo debajo del nombre, en la barra lateral.
+# Cambia una cada 10 segundos, en orden aleatorio. Añade o quita las que quieras.
+- "Bienvenido a mi rincón"
+- "¿Me estás mirando? 👀"
+- "Café, terminal y a por ello ☕"
+- "Root primero, preguntas después"
+- "¿Has probado a apagarlo y encenderlo?"
+- "Menos teoría y más terminal"
+- "Enumera, explota, repite"
+- "99 bugs en el código; arreglas uno y quedan 117 🐛"
+- "La curiosidad no mató al gato, lo hizo root 🐱"
+- "Toda flag empieza por un buen escaneo"
+- "Aquí se aprende rompiendo 💥"
+- "Modo hacker: activado"
+- "Ponte cómodo, esto va para largo"
+- "El mejor exploit es la paciencia"
+
+# Frases con "guion": una lista de pasos que se ejecutan en orden.
+#   escribe: "texto"   -> escribe letra a letra a continuación de lo que haya
+#   borra: N | todo    -> borra N letras (o todo) como con la tecla de retroceso
+#   espera: ms         -> pausa en milisegundos
+#   rayar: ms          -> el texto se "raya" (glitch) durante ese tiempo
+# Los 10 segundos para la siguiente frase empiezan a contar al acabar el guion.
+- pasos:
+    - escribe: "Compilando ideas"
+    - espera: 600
+    - escribe: "..."
+    - espera: 800
+    - borra: todo
+    - escribe: "Deploy a producción un viernes"
+- pasos:
+    - escribe: "A rayarse"
+    - espera: 3000
+    - rayar: 2500

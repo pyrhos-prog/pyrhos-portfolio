@@ -1,0 +1,56 @@
+---
+title: Write-ups
+icon: fas fa-terminal
+order: 1
+---
+
+{% assign writeups = site.posts | where_exp: 'p', "p.categories contains 'Writeups'" %}
+
+<p class="hx-lead">Resolución paso a paso de máquinas: enumeración, explotación y escalada de privilegios.</p>
+
+{% if writeups.size > 0 %}
+  {% include hx-filterbar.html target="hx-writeups" empty="hx-writeups-empty" total=writeups.size %}
+
+  <div class="hx-mlist" id="hx-writeups">
+    {% for post in writeups %}
+      {% assign os_down = post.os | default: '' | downcase %}
+      {% if os_down contains 'windows' %}{% assign os_key = 'windows' %}
+      {% elsif os_down contains 'linux' %}{% assign os_key = 'linux' %}
+      {% else %}{% assign os_key = 'otros' %}{% endif %}
+      <a class="hx-mcard" data-os="{{ os_key }}" data-diff="{{ post.difficulty | default: '' | downcase }}" href="{{ post.url | relative_url }}" data-name="{{ post.machine | default: post.title | downcase }}" data-platform="{{ post.platform | default: '' | downcase | remove: ' ' }}"{% if post.accent %} style="--m: {{ post.accent }}"{% endif %}>
+        <span class="hx-mcard-img{% unless post.thumb %} hx-mcard-ph{% endunless %}"{% if post.thumb %} style="background-image:url('{{ post.thumb | relative_url }}')"{% endif %}>
+          {% unless post.thumb %}{% if os_down contains 'windows' %}<i class="fab fa-windows"></i>{% elsif os_down contains 'linux' %}<i class="fab fa-linux"></i>{% else %}<i class="fas fa-server"></i>{% endif %}{% endunless %}
+        </span>
+        <div class="hx-mcard-body">
+          <h3 class="hx-mcard-name">{{ post.title }}</h3>
+          <p class="hx-mcard-meta">
+            {% if os_down contains 'windows' %}<i class="fab fa-windows"></i>{% elsif os_down contains 'linux' %}<i class="fab fa-linux"></i>{% else %}<i class="fas fa-microchip"></i>{% endif %}
+            {{ post.os }} · {{ post.date | date: '%d/%m/%Y' }}
+          </p>
+          {% if post.difficulty %}<span class="hx-badge hx-diff-{{ post.difficulty | downcase }}">{{ post.difficulty }}</span>{% endif %}
+        </div>
+        {%- assign mname = post.machine | default: post.title -%}
+        {%- capture stars %}{% include hx-stars.html score=post.score platform=post.platform label=true static=true %}{% endcapture -%}
+        {%- capture chart %}{% include hx-htb-chart.html machine=mname platform=post.platform %}{% endcapture -%}
+        {%- assign stars = stars | strip -%}
+        {%- assign chart = chart | strip -%}
+        {%- unless stars == '' and chart == '' -%}
+          <span class="hx-mcard-side">
+            {%- unless stars == '' %}<span class="hx-mcard-stars">{{ stars }}</span>{% endunless -%}
+            {%- unless chart == '' %}<span class="hx-mcard-chart">{{ chart }}</span>{% endunless -%}
+          </span>
+        {%- endunless -%}
+      </a>
+    {% endfor %}
+  </div>
+
+  <div class="hx-empty hx-no-results" id="hx-writeups-empty">
+    <i class="fas fa-filter"></i>
+    Ninguna máquina coincide con la búsqueda o el filtro.
+  </div>
+{% else %}
+  <div class="hx-empty">
+    <i class="fas fa-terminal"></i>
+    Todavía no hay write-ups publicados. Pronto habrá máquinas por aquí.
+  </div>
+{% endif %}

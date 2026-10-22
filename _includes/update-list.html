@@ -1,0 +1,186 @@
+{%- comment -%}
+  Panel derecho: progreso CPTS + últimas subidas (sustituye al include del tema)
+{%- endcomment -%}
+
+{%- assign rm_total = 0 -%}
+{%- assign rm_solved = 0 -%}
+{%- for s in site.data.cpts.sections -%}
+  {%- for m in s.machines -%}
+    {%- assign rm_total = rm_total | plus: 1 -%}
+    {%- assign wp = site.posts | where: 'machine', m.name | where: 'platform', site.data.cpts.platform | first -%}
+    {%- if wp -%}
+      {%- assign st = wp.status | default: 'Resuelta' -%}
+    {%- else -%}
+      {%- assign st = m.status | default: 'Pendiente' -%}
+    {%- endif -%}
+    {%- if st == 'Resuelta' -%}{%- assign rm_solved = rm_solved | plus: 1 -%}{%- endif -%}
+  {%- endfor -%}
+{%- endfor -%}
+
+{%- assign total_wu = 0 -%}
+{%- for post in site.posts -%}
+  {%- if post.categories contains 'Writeups' -%}{%- assign total_wu = total_wu | plus: 1 -%}{%- endif -%}
+{%- endfor -%}
+<section class="hx-widget hx-widget-total">
+  <h2 class="panel-heading hx-widget-title"><i class="fas fa-server" aria-hidden="true"></i> Total máquinas</h2>
+  <div class="hx-total">
+    <b class="hx-total-num">{{ total_wu }}</b>
+    <span class="hx-total-txt">máquinas resueltas</span>
+  </div>
+</section>
+
+{%- if rm_total > 0 -%}
+  {%- assign rm_pct = rm_solved | times: 100.0 | divided_by: rm_total | round: 1 -%}
+  <section class="hx-widget">
+    <h2 class="panel-heading hx-widget-title"><i class="fas fa-flag-checkered" aria-hidden="true"></i> Progreso CPTS</h2>
+    <a class="hx-ring-wrap" href="{{ '/roadmap/' | relative_url }}">
+      <span class="hx-ring" style="--p: {{ rm_pct }}" aria-hidden="true"><b>{{ rm_pct | round }}%</b></span>
+      <span class="hx-ring-txt">
+        <b>{{ rm_solved }}<small>/{{ rm_total }}</small></b>
+        máquinas resueltas
+        <em>Ver roadmap <i class="fas fa-arrow-right" aria-hidden="true"></i></em>
+      </span>
+    </a>
+  </section>
+{%- endif -%}
+
+{%- assign htb = site.data.htb -%}
+{%- if htb -%}
+  {%- assign htb_avatar = htb.avatar | default: '' -%}
+  <section class="hx-widget hx-htb">
+    <h2 class="panel-heading hx-widget-title hx-htb-head"><span class="hx-icon-htb" aria-hidden="true"></span> HackTheBox</h2>
+    <div class="hx-htb-card">
+      <div class="hx-htb-logo{% if htb.badge and htb.badge != '' %} is-badge{% endif %}" id="hx-htb-logo" data-fx="a" aria-hidden="true">
+        {%- if htb.badge and htb.badge != '' -%}
+          <img class="hx-htb-badge" src="{{ htb.badge }}" alt="" loading="lazy">
+        {%- else -%}
+          <svg class="hx-htb-hex" viewBox="0 0 24 24" fill="none" stroke-linejoin="round" stroke-linecap="round">
+            <path class="hx-htb-p hx-htb-p1" pathLength="100" d="M12 2 21 7v10l-9 5-9-5V7z"/>
+            <path class="hx-htb-p hx-htb-p2" pathLength="100" d="M3 7l9 5 9-5M12 12v10"/>
+          </svg>
+          <span class="hx-htb-ghost hx-htb-ghost-c"></span>
+          <span class="hx-htb-ghost hx-htb-ghost-m"></span>
+        {%- endif -%}
+        <span class="hx-htb-scan"></span>
+        <span class="hx-htb-ring"></span>
+      </div>
+      <div class="hx-htb-side">
+        <div class="hx-htb-level">
+          {%- if htb.level and htb.level != '' -%}
+            <small>Nivel</small>
+            <b>Lvl {{ htb.level }}</b>
+          {%- else -%}
+            <small>Rango actual</small>
+            <b>{{ htb.rank | default: '—' }}</b>
+          {%- endif -%}
+          {%- if htb.points and htb.points != '' and htb.points != '0' %}<em>{{ htb.points }} pts</em>{% endif -%}
+        </div>
+        <div class="hx-htb-row">
+          <span class="hx-htb-avatar"{% if htb_avatar != '' %} style="background-image:url('{{ htb_avatar }}')"{% endif %} aria-hidden="true">{% if htb_avatar == '' %}<i class="fas fa-user-secret"></i>{% endif %}</span>
+          <a class="hx-htb-btn" href="{{ htb.profile | default: 'https://app.hackthebox.com' }}" target="_blank" rel="noopener noreferrer" aria-label="Perfil de HackTheBox" title="Perfil de HackTheBox"><span class="hx-icon-htb" aria-hidden="true"></span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{%- assign dest = site.data.destacadas -%}
+{%- if dest.certificaciones -%}
+  <section class="hx-widget hx-feat hx-feat-cert">
+    <h2 class="panel-heading hx-widget-title"><i class="fas fa-star" aria-hidden="true"></i> Certificaciones destacadas</h2>
+    <div class="hx-feat-grid">
+      {%- for c in dest.certificaciones limit: 3 -%}
+        {%- if c.nombre -%}
+          {%- assign wip = false -%}
+          {%- if c.en_curso_hasta -%}
+            {%- assign hoy = site.time | date: '%Y%m%d' | plus: 0 -%}
+            {%- assign fin = c.en_curso_hasta | date: '%Y%m%d' | plus: 0 -%}
+            {%- if hoy <= fin -%}{%- assign wip = true -%}{%- endif -%}
+          {%- endif -%}
+          <a class="hx-feat-card" href="{{ c.url | default: '/certificaciones/' | relative_url }}" style="--fc: {{ c.color | default: '193 108 255' }}">
+            {%- if wip %}<span class="hx-feat-wip" role="img" aria-label="En curso" title="En curso"></span>{% endif -%}
+            <span class="hx-feat-img"{% if c.img %} style="background-image:url('{{ c.img | relative_url }}')"{% endif %}></span>
+            <b>{{ c.nombre }}</b>
+          </a>
+        {%- else -%}
+          <span class="hx-feat-card hx-feat-empty" aria-hidden="true"><i class="fas fa-plus"></i></span>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{%- if dest.maquinas -%}
+  <section class="hx-widget hx-feat hx-feat-maq">
+    <h2 class="panel-heading hx-widget-title"><i class="fas fa-star" aria-hidden="true"></i> Write-ups destacados</h2>
+    <div class="hx-feat-grid">
+      {%- for m in dest.maquinas limit: 3 -%}
+        {%- if m.nombre -%}
+          <a class="hx-feat-card" href="{{ m.url | default: '/writeups/' | relative_url }}" style="--fc: {{ m.color | default: '46 230 214' }}">
+            <span class="hx-feat-img"{% if m.img %} style="background-image:url('{{ m.img | relative_url }}')"{% endif %}></span>
+            <b>{{ m.nombre }}</b>
+          </a>
+        {%- else -%}
+          <span class="hx-feat-card hx-feat-empty" aria-hidden="true"><i class="fas fa-plus"></i></span>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{%- comment -%}
+  "Últimas subidas" = orden real de publicación. Ordenamos por `date` (la fecha
+  de subida del write-up), NO por `last_modified_at`: editar un write-up antiguo
+  actualiza su "Actualizado" pero no es una subida nueva, así que no debe colarse
+  arriba. Al publicar uno nuevo (fecha de hoy) entra el primero, igual que en Inicio.
+{%- endcomment -%}
+{% assign MAX_SIZE = 5 %}
+{% assign all_list = '' | split: '' %}
+{% for post in site.posts %}
+  {% capture elem %}
+    {{- post.date | date: "%Y%m%d%H%M%S" -}}::{{- forloop.index0 -}}
+  {% endcapture %}
+  {% assign all_list = all_list | push: elem %}
+{% endfor %}
+{% assign all_list = all_list | sort | reverse %}
+
+{% if all_list.size > 0 %}
+  <section id="access-lastmod" class="hx-widget">
+    <h2 class="panel-heading hx-widget-title">
+      <i class="fas fa-arrow-up" aria-hidden="true"></i> Últimas subidas
+      <span class="hx-live" aria-hidden="true"></span>
+    </h2>
+    <ul class="hx-recent list-unstyled">
+      {% for item in all_list limit: MAX_SIZE %}
+        {% assign index = item | split: '::' | last | plus: 0 %}
+        {% assign post = site.posts[index] %}
+        {% assign ic = forloop.index0 | modulo: 6 %}
+        {% case ic %}
+          {% when 0 %}{% assign icol = '159 239 0' %}
+          {% when 1 %}{% assign icol = '46 230 214' %}
+          {% when 2 %}{% assign icol = '255 175 0' %}
+          {% when 3 %}{% assign icol = '193 108 255' %}
+          {% when 4 %}{% assign icol = '94 180 248' %}
+          {% when 5 %}{% assign icol = '255 214 10' %}
+        {% endcase %}
+        {% if post.accent %}{% assign icol = post.accent %}{% endif %}
+        {% assign os_down = post.os | default: '' | downcase %}
+        <li>
+          <a href="{{ post.url | relative_url }}" style="--ic: {{ icol }}">
+            <span class="hx-recent-img{% unless post.thumb %} hx-recent-ph{% endunless %}"{% if post.thumb %} style="background-image:url('{{ post.thumb | relative_url }}')"{% endif %}>
+              {% unless post.thumb %}{% if post.categories contains 'Herramientas' %}<i class="fas fa-toolbox" aria-hidden="true"></i>{% elsif os_down contains 'windows' %}<i class="fab fa-windows" aria-hidden="true"></i>{% elsif os_down contains 'linux' %}<i class="fab fa-linux" aria-hidden="true"></i>{% else %}<i class="fas fa-server" aria-hidden="true"></i>{% endif %}{% endunless %}
+            </span>
+            <span>
+              <b>{{ post.title }}</b>
+              <small>
+                {{ post.date | date: '%d/%m/%Y' }}
+                {%- if post.difficulty %} · <em class="hx-diff-{{ post.difficulty | downcase }}">{{ post.difficulty }}</em>{% endif -%}
+                {%- if post.status %} · {{ post.status }}{% endif -%}
+              </small>
+            </span>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endif %}

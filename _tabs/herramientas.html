@@ -1,0 +1,52 @@
+---
+title: Herramientas
+icon: fas fa-toolbox
+order: 3
+---
+
+{% assign posts_tools = site.posts | where_exp: 'p', "p.categories contains 'Herramientas'" %}
+
+<p class="hx-lead">Scripts y herramientas que desarrollo para automatizar pentesting, CTFs y el día a día.</p>
+
+{% if site.data.herramientas.size > 0 %}
+  <div class="hx-tools">
+    {% for t in site.data.herramientas %}
+      <article class="hx-tool" style="--c: {{ t.color | default: '46 230 214' }}">
+        <i class="{{ t.icono | default: 'fas fa-code' }} hx-tool-watermark" aria-hidden="true"></i>
+        <div class="hx-tool-head-row">
+          <i class="{{ t.icono | default: 'fas fa-code' }} hx-tool-icon" aria-hidden="true"></i>
+          <span class="hx-tool-head">
+            <b>{{ t.nombre }}</b>
+            <small>{{ t.lenguaje }}</small>
+          </span>
+        </div>
+        {% if t.tags %}
+          <div class="hx-tool-tags">
+            {% for tag in t.tags %}<span>#{{ tag }}</span>{% endfor %}
+          </div>
+        {% endif %}
+        <p class="hx-tool-resumen">{{ t.resumen }}</p>
+        <div class="hx-tool-cta">
+          <a class="hx-btn" href="{{ t.repo }}" target="_blank" rel="noopener">
+            <i class="fab fa-github" aria-hidden="true"></i> Abrir herramienta
+          </a>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+{% endif %}
+
+{% if posts_tools.size > 0 %}
+  <h2 id="articulos">Artículos</h2>
+  <div class="hx-grid">
+    {% for post in posts_tools %}
+      <a class="hx-card" href="{{ post.url | relative_url }}">
+        <div class="hx-card-top">
+          <i class="fas fa-{{ post.icon | default: 'code' }}" aria-hidden="true"></i>
+        </div>
+        <p class="hx-card-title">{{ post.title }}</p>
+        <p class="hx-card-desc">{{ post.description | default: post.excerpt | strip_html | truncate: 150 }}</p>
+      </a>
+    {% endfor %}
+  </div>
+{% endif %}

@@ -1,0 +1,26 @@
+obtenidas:
+  - nombre: "eJPTv2"
+    color: "94 180 248"
+    estado_label: "Obtenida"
+    emisor: "INE Security"
+    logo: "/assets/img/logos/ine.png"
+    fecha: "Abril 2024"
+    resumen: >-
+      Certificación práctica de nivel profesional junior en pentesting. El examen
+      se realiza en un entorno de laboratorio real donde es necesario comprometer
+      una red completa, realizar pivoting y responder a preguntas basadas en evidencias
+      técnicas.
+    habilidades: ["Enumeración de redes", "Explotación web", "Metasploit", "Pivoting", "Post-explotación", "Reporting"]
+
+en_progreso:
+  - nombre: "CPTS"
+    color: "68 240 138"
+    estado_label: "En preparación"
+    emisor: "Hack The Box"
+    logo: "/assets/img/logos/htb.svg"
+    resumen: >-
+      Certified Penetration Testing Specialist (CPTS). Examen de auditoría real
+      sobre redes empresariales complejas. Evalúa habilidades avanzadas de
+      enumeración, explotación web, pivoting profundo entre subredes, compromiso
+      completo de bosques Active Directory y elaboración de informe técnico comercial.
+    habilidades: ["Active Directory", "Pivoting & Tunneling", "Explotación Web", "Escalada en Windows", "Escalada en Linux", "Reporting Profesional"]

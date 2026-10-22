@@ -1,0 +1,85 @@
+# Roadmap de preparación hacia la certificación Hack The Box CPTS
+# (Certified Penetration Testing Specialist) - Job Role Path: Penetration Tester
+#
+# Cada sección clasifica las máquinas según los dominios de evaluación de la CPTS:
+# fundamentos, explotación avanzada, Active Directory y pivoting/redes internas.
+#
+# Si existe un post con `machine: <name>` y `platform: HackTheBox`, se enlaza
+# automáticamente y se marca como Resuelta.
+
+platform: "HackTheBox"
+sections:
+  - id: easy
+    title: "Easy — Fundamentos & Enumeración"
+    machines:
+      - { name: "Editor", os: "Linux", difficulty: "Easy", status: "Resuelta" }
+      - { name: "Lame", os: "Linux", difficulty: "Easy" }
+      - { name: "Legacy", os: "Windows", difficulty: "Easy" }
+      - { name: "Blue", os: "Windows", difficulty: "Easy" }
+      - { name: "Jerry", os: "Windows", difficulty: "Easy" }
+      - { name: "Shocker", os: "Linux", difficulty: "Easy" }
+      - { name: "Bashed", os: "Linux", difficulty: "Easy" }
+      - { name: "Nibbles", os: "Linux", difficulty: "Easy" }
+      - { name: "Netmon", os: "Windows", difficulty: "Easy" }
+      - { name: "Previse", os: "Linux", difficulty: "Easy" }
+      - { name: "Delivery", os: "Linux", difficulty: "Easy" }
+      - { name: "Knife", os: "Linux", difficulty: "Easy" }
+      - { name: "Sau", os: "Linux", difficulty: "Easy" }
+      - { name: "MonitorsTwo", os: "Linux", difficulty: "Easy" }
+      - { name: "CozyHosting", os: "Linux", difficulty: "Easy" }
+      - { name: "BoardLight", os: "Linux", difficulty: "Easy" }
+      - { name: "Bounty", os: "Windows", difficulty: "Easy" }
+      - { name: "Buff", os: "Windows", difficulty: "Easy" }
+      - { name: "ServMon", os: "Windows", difficulty: "Easy" }
+      - { name: "PermX", os: "Linux", difficulty: "Easy" }
+      - { name: "Headless", os: "Linux", difficulty: "Easy" }
+
+  - id: medium
+    title: "Medium — Explotación Web & Escalada Avanzada"
+    machines:
+      - { name: "Gavel", os: "Linux", difficulty: "Medium", status: "Resuelta" }
+      - { name: "SecNotes", os: "Windows", difficulty: "Medium" }
+      - { name: "Bastard", os: "Windows", difficulty: "Medium" }
+      - { name: "Optimum", os: "Windows", difficulty: "Medium" }
+      - { name: "BountyHunter", os: "Linux", difficulty: "Medium" }
+      - { name: "Horizontall", os: "Linux", difficulty: "Medium" }
+      - { name: "Cap", os: "Linux", difficulty: "Easy" }
+      - { name: "Analytics", os: "Linux", difficulty: "Easy" }
+      - { name: "Hospital", os: "Windows", difficulty: "Medium" }
+      - { name: "Visual", os: "Windows", difficulty: "Medium" }
+      - { name: "Usage", os: "Linux", difficulty: "Easy" }
+      - { name: "Craft", os: "Linux", difficulty: "Medium" }
+      - { name: "Pit", os: "Linux", difficulty: "Medium" }
+      - { name: "Popcorn", os: "Linux", difficulty: "Medium" }
+
+  - id: active-directory
+    title: "Active Directory — Kerberos, ACLs & Dominio"
+    machines:
+      - { name: "Sauna", os: "Windows", difficulty: "Easy" }
+      - { name: "Forest", os: "Windows", difficulty: "Easy" }
+      - { name: "Return", os: "Windows", difficulty: "Easy" }
+      - { name: "Monteverde", os: "Windows", difficulty: "Medium" }
+      - { name: "Cascade", os: "Windows", difficulty: "Medium" }
+      - { name: "Resolute", os: "Windows", difficulty: "Medium" }
+      - { name: "Support", os: "Windows", difficulty: "Easy" }
+      - { name: "Blackfield", os: "Windows", difficulty: "Hard" }
+      - { name: "Intelligence", os: "Windows", difficulty: "Medium" }
+      - { name: "Scrambled", os: "Windows", difficulty: "Medium" }
+      - { name: "Cicada", os: "Windows", difficulty: "Easy" }
+      - { name: "Flight", os: "Windows", difficulty: "Hard" }
+      - { name: "Fuse", os: "Windows", difficulty: "Medium" }
+      - { name: "Mantis", os: "Windows", difficulty: "Hard" }
+      - { name: "Sizzle", os: "Windows", difficulty: "Hard" }
+      - { name: "Active", os: "Windows", difficulty: "Easy" }
+
+  - id: pivoting-enterprise
+    title: "Pivoting & Entornos Corporativos Complejos"
+    machines:
+      - { name: "Saul", os: "Linux", difficulty: "Medium" }
+      - { name: "VulnNet: Roasted", os: "Windows", difficulty: "Medium" }
+      - { name: "VulnNet: EndGame", os: "Windows", difficulty: "Hard" }
+      - { name: "Enterprise", os: "Windows", difficulty: "Medium" }
+      - { name: "Multimaster", os: "Windows", difficulty: "Hard" }
+      - { name: "APT", os: "Windows", difficulty: "Insane" }
+      - { name: "Razor", os: "Windows", difficulty: "Hard" }
+      - { name: "Heist", os: "Windows", difficulty: "Easy" }

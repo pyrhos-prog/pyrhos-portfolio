@@ -1,0 +1,21 @@
+#  The contact options.
+
+- type: github
+  icon: "fab fa-github"
+  url: "https://github.com/pyrhos-prog"
+
+- type: hackthebox
+  icon: "hx-icon-htb"
+  url: "https://app.hackthebox.com/profile/469161"
+
+- type: tryhackme
+  icon: "hx-icon-thm"
+  url: "https://tryhackme.com/r/p/pyrhos01"
+
+# - type: linkedin
+#   icon: "fab fa-linkedin"
+#   url: "https://www.linkedin.com/in/tu-perfil"
+
+# - type: email
+#   icon: "fas fa-envelope"
+#   noblank: true

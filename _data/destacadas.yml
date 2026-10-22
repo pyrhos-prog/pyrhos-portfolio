@@ -1,0 +1,26 @@
+# Elementos destacados del panel derecho (3 huecos por fila).
+certificaciones:
+  - nombre: "eJPTv2"
+    img: "/assets/img/logos/ine.png"
+    color: "94 180 248"
+    url: "/certificaciones/"
+  - nombre: "CPTS"
+    img: "/assets/img/logos/htb.svg"
+    color: "68 240 138"
+    url: "/certificaciones/"
+    en_curso_hasta: "2026-12-31"
+  - nombre: "Telecom"
+    img: "/assets/img/logos/ucav.png"
+    color: "94 180 248"
+    url: "/titulos/"
+
+maquinas:
+  - nombre: "Editor"
+    img: "/assets/img/machines/editor.png"
+    color: "68 240 138"
+    url: "/posts/editor/"
+  - nombre: "Gavel"
+    img: "/assets/img/machines/gavel.png"
+    color: "255 175 0"
+    url: "/posts/gavel/"
+  - {}

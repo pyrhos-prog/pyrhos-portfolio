@@ -1,0 +1,23 @@
+oficiales:
+  - nombre: "Grado Medio en Instalaciones de Telecomunicaciones"
+    color: "94 180 248"
+    estado_label: "Oficial"
+    emisor: "IES María Moliner (Segovia)"
+    fecha: "2024 – 2026"
+    resumen: >-
+      Formación reglada orientada a infraestructuras de comunicaciones, redes de
+      datos, sistemas de telecomunicaciones, cableado estructurado y electrónica
+      de comunicaciones.
+    habilidades: ["Redes de datos", "Infraestructuras de red", "Telecomunicaciones", "Hardware", "Electrónica"]
+
+no_oficiales:
+  - nombre: "Especialización Práctica en Pentesting"
+    color: "68 240 138"
+    estado_label: "Práctica"
+    emisor: "Hack The Box Academy"
+    fecha: "2024 – Actualidad"
+    resumen: >-
+      Preparación intensiva enfocada en el Job Role Path de Penetration Tester de HTB
+      Academy, resolviendo máquinas activas y retiradas, laboratorios de Active Directory y
+      técnicas de evasión y pivoting.
+    habilidades: ["Active Directory", "Pivoting", "Explotación Web", "Linux Privesc", "Windows Privesc"]

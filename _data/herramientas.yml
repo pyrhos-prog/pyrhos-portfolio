@@ -1,0 +1,11 @@
+# Herramientas y proyectos propios
+- nombre: "ESP32 Marauder"
+  lenguaje: "C++ / Hardware"
+  color: "255 120 60"
+  icono: "fas fa-microchip"
+  repo: "https://github.com/pyrhos-prog"
+  resumen: >-
+    Dispositivo portátil basado en el microcontrolador ESP32 para auditoría de redes inalámbricas
+    Wi-Fi y Bluetooth (BLE). Permite analizar tráfico en la banda de 2.4 GHz, detectar puntos de
+    acceso, balizas y clientes, así como probar la robustez de comunicaciones en entornos de laboratorio.
+  tags: [hardware, wifi, bluetooth, esp32, auditoria]

@@ -1,0 +1,82 @@
+---
+layout: default
+---
+
+{% include lang.html %}
+
+{% assign all_pinned = site.posts | where: 'pin', 'true' %}
+{% assign all_normal = site.posts | where_exp: 'item', 'item.pin != true and item.hidden != true' %}
+
+{% assign posts = '' | split: '' %}
+
+<!-- Get pinned posts on current page -->
+
+{% assign visible_start = paginator.page | minus: 1 | times: paginator.per_page %}
+{% assign visible_end = visible_start | plus: paginator.per_page %}
+
+{% if all_pinned.size > visible_start %}
+  {% if all_pinned.size > visible_end %}
+    {% assign pinned_size = paginator.per_page %}
+  {% else %}
+    {% assign pinned_size = all_pinned.size | minus: visible_start %}
+  {% endif %}
+
+  {% for i in (visible_start..all_pinned.size) limit: pinned_size %}
+    {% assign posts = posts | push: all_pinned[i] %}
+  {% endfor %}
+{% else %}
+  {% assign pinned_size = 0 %}
+{% endif %}
+
+<!-- Get normal posts on current page -->
+
+{% assign normal_size = paginator.posts | size | minus: pinned_size %}
+
+{% if normal_size > 0 %}
+  {% if pinned_size > 0 %}
+    {% assign normal_start = 0 %}
+  {% else %}
+    {% assign normal_start = visible_start | minus: all_pinned.size %}
+  {% endif %}
+
+  {% assign normal_end = normal_start | plus: normal_size | minus: 1 %}
+
+  {% for i in (normal_start..normal_end) %}
+    {% assign posts = posts | push: all_normal[i] %}
+  {% endfor %}
+{% endif %}
+
+{% unless paginator.page > 1 %}
+  {% include hx-hero.html %}
+{% endunless %}
+
+<h2 class="hx-updates-title">Updates</h2>
+
+{% if posts.size == 0 %}
+  <div class="hx-empty">
+    <i class="fas fa-terminal"></i>
+    Aún no hay publicaciones.
+  </div>
+{% endif %}
+
+<div id="post-list" class="hx-mgrid flex-grow-1 px-xl-1">
+  {% assign now_s = site.time | date: '%s' | plus: 0 %}
+  {% for post in site.posts limit: 3 %}
+    {% assign os_down = post.os | default: '' | downcase %}
+    {% if os_down contains 'windows' %}{% assign os_key = 'windows' %}
+    {% elsif os_down contains 'linux' %}{% assign os_key = 'linux' %}
+    {% else %}{% assign os_key = 'otros' %}{% endif %}
+    {% assign post_s = post.date | date: '%s' | plus: 0 %}
+    {% assign age = now_s | minus: post_s %}
+    <a class="hx-mcard" data-os="{{ os_key }}" data-diff="{{ post.difficulty | default: '' | downcase }}" href="{{ post.url | relative_url }}" data-name="{{ post.machine | default: post.title | downcase }}" data-platform="{{ post.platform | default: '' | downcase | remove: ' ' }}"{% if post.accent %} style="--m: {{ post.accent }}"{% endif %}>
+      {% if age >= 0 and age < 172800 %}<span class="hx-new"><span class="hx-new-dot" aria-hidden="true"></span>nueva</span>{% endif %}
+      <span class="hx-mcard-img{% unless post.thumb %} hx-mcard-ph{% endunless %}"{% if post.thumb %} style="background-image:url('{{ post.thumb | relative_url }}')"{% endif %}>
+        {% unless post.thumb %}{% if os_down contains 'windows' %}<i class="fab fa-windows"></i>{% elsif os_down contains 'linux' %}<i class="fab fa-linux"></i>{% else %}<i class="fas fa-server"></i>{% endif %}{% endunless %}
+      </span>
+      <h3 class="hx-mcard-name">{{ post.title }}</h3>
+    </a>
+  {% endfor %}
+</div>
+<!-- #post-list -->
+
+<a class="hx-updates-all" href="{{ '/writeups/' | relative_url }}">Ver todos los write-ups <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
