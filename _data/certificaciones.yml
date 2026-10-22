@@ -5,6 +5,8 @@ obtenidas:
     emisor: "INE Security"
     logo: "/assets/img/logos/ine.png"
     fecha: "Abril 2024"
+    documento: "/assets/docs/ejpt.pdf"
+    preview: "/assets/img/docs-preview/ejpt.png"
     resumen: >-
       Certificación práctica de nivel profesional junior en pentesting. El examen
       se realiza en un entorno de laboratorio real donde es necesario comprometer
@@ -14,7 +16,7 @@ obtenidas:
 
 en_progreso:
   - nombre: "CPTS"
-    color: "68 240 138"
+    color: "255 107 43"
     estado_label: "En preparación"
     emisor: "Hack The Box"
     logo: "/assets/img/logos/htb.svg"

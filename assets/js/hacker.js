@@ -75,7 +75,7 @@
     const ICON = '/assets/img/avatar-icono.png'; // calavera de icono1MB_sinfondo
     const PHOTO = img.src;
     new Image().src = ICON; // precarga
-    const BASE_GLOW = '0 0 24px rgba(159, 239, 0, 0.25)';
+    const BASE_GLOW = '0 0 24px rgba(255, 107, 43, 0.35)';
     const P = 'perspective(700px) ';
     const wait = (ms) => new Promise((r) => setTimeout(r, ms));
     const play = (el, frames, opts) => el.animate(frames, { fill: 'forwards', ...opts }).finished;
@@ -94,13 +94,16 @@
     };
 
     // Limpia las animaciones "forwards" de un elemento al terminar
-    const reset = (...els) => els.forEach((el) => el.getAnimations().forEach((an) => an.cancel()));
+    const reset = (...els) => els.forEach((el) => {
+      el.getAnimations().forEach((an) => an.cancel());
+      if (el.tagName === 'IMG') el.style.opacity = '1';
+    });
 
-    // Pulso verde de "colocado" (se desvanece solo)
+    // Pulso cálido de "colocado" (se desvanece solo)
     const settle = () => avatar.animate(
       [
-        { boxShadow: '0 0 0 0 rgba(159, 239, 0, 0.7), ' + BASE_GLOW },
-        { boxShadow: '0 0 0 16px rgba(159, 239, 0, 0), ' + BASE_GLOW }
+        { boxShadow: '0 0 0 0 rgba(255, 107, 43, 0.8), ' + BASE_GLOW },
+        { boxShadow: '0 0 0 16px rgba(255, 107, 43, 0), ' + BASE_GLOW }
       ],
       { duration: 1400, easing: 'ease-out' }
     ).finished;
@@ -386,7 +389,21 @@
       fx.innerHTML = '';
     }
 
-    const effects = [coin, glitchIcon, bits, shatter, aura, holo];
+    async function cyberGlitch() {
+      await play(avatar, [
+        { transform: 'translate(0, 0)' },
+        { transform: 'translate(-2px, 1px) skewX(-2deg)', filter: 'hue-rotate(20deg) contrast(1.2)', offset: 0.2 },
+        { transform: 'translate(2px, -1px) skewX(2deg)', filter: 'hue-rotate(-20deg)', offset: 0.4 },
+        { transform: 'translate(-1px, 2px)', filter: 'brightness(1.3)', offset: 0.6 },
+        { transform: 'translate(1px, -1px)', offset: 0.8 },
+        { transform: 'translate(0, 0)', filter: 'none' }
+      ], { duration: 450 });
+      reset(avatar);
+      if (img) img.style.opacity = '1';
+      await settle();
+    }
+
+    const effects = [coin, aura, cyberGlitch];
     const recent = [];
 
     (async function loop() {
