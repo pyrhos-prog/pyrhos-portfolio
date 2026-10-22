@@ -1651,9 +1651,19 @@
     });
   }
 
+  function initWikiLinks() {
+    const wikiUrl = 'https://pyrhos-wiki.pages.dev';
+    document.querySelectorAll('a[href*="/wiki/"], a[href$="/wiki"], a[href*="pyrhos-wiki"]').forEach((a) => {
+      a.href = wikiUrl;
+      a.target = '_self'; // Se comporta como parte de la misma aplicación / web
+      a.setAttribute('rel', 'noopener');
+    });
+  }
+
   function init() {
     // Cada módulo va aislado: si uno falla, los demás siguen vivos.
     [
+      initWikiLinks,
       initStars,
       initHideDupHeader,
       initMachinesDash,

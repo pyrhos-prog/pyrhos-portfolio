@@ -271,15 +271,42 @@ a { transition: color 0.2s, text-shadow 0.2s; }
 
 /* Un color distinto por página (sin repetir) + el fondo del botón usa su color */
 #sidebar .nav-item { counter-increment: hx-nav; --c: 68 240 138; --sidebar-hover-bg: rgb(var(--c) / 12%); }
-#sidebar .nav-item:nth-child(1) { --c: 68 240 138; }    /* INICIO · verde */
-#sidebar .nav-item:nth-child(2) { --c: 46 230 214; }   /* WRITE-UPS · cian */
-#sidebar .nav-item:nth-child(3) { --c: 255 175 0; }    /* HERRAMIENTAS · naranja */
-#sidebar .nav-item:nth-child(4) { --c: 193 108 255; }  /* CERTIFICACIONES · morado */
-#sidebar .nav-item:nth-child(5) { --c: 94 180 248; }   /* TÍTULOS · azul */
-#sidebar .nav-item:nth-child(6) { --c: 255 94 135; }   /* ETIQUETAS · rosa */
-#sidebar .nav-item:nth-child(7) { --c: 0 214 170; }    /* ARCHIVO · verde azulado */
-#sidebar .nav-item:nth-child(8) { --c: 255 120 60; }   /* ROADMAP · coral */
-#sidebar .nav-item:nth-child(9) { --c: 240 246 252; }  /* ACERCA DE · blanco */
+#sidebar .nav-item:nth-child(1) { --c: 68 240 138; }    /* INICIO */
+#sidebar .nav-item:nth-child(2) { --c: 46 230 214; }   /* WRITE-UPS */
+#sidebar .nav-item:nth-child(3) { --c: 255 175 0; }    /* ROADMAP */
+#sidebar .nav-item:nth-child(4) { --c: 255 107 43; }   /* WIKI */
+#sidebar .nav-item:nth-child(5) { --c: 255 120 60; }   /* HERRAMIENTAS */
+#sidebar .nav-item:nth-child(6) { --c: 193 108 255; }  /* CERTIFICACIONES */
+#sidebar .nav-item:nth-child(7) { --c: 94 180 248; }   /* TÍTULOS */
+#sidebar .nav-item:nth-child(8) { --c: 0 214 170; }    /* HISTORIAL / MAQUINAS */
+#sidebar .nav-item:nth-child(9) { --c: 240 246 252; }  /* SOBRE MÍ */
+#sidebar .nav-item:nth-child(10) { --c: 255 94 135; }  /* ETIQUETAS */
+
+/* Mapeo directo por URL para garantizar colores exactos independientemente del orden */
+#sidebar .nav-item:has(a[href*="/writeups/"]) { --c: 46 230 214; }
+#sidebar .nav-item:has(a[href*="/roadmap/"]) { --c: 255 175 0; }
+#sidebar .nav-item:has(a[href*="pyrhos-wiki"], a[href*="/wiki/"]) { --c: 255 107 43; }
+#sidebar .nav-item:has(a[href*="/herramientas/"]) { --c: 255 120 60; }
+#sidebar .nav-item:has(a[href*="/certificaciones/"]) { --c: 193 108 255; }
+#sidebar .nav-item:has(a[href*="/titulos/"]) { --c: 94 180 248; }
+#sidebar .nav-item:has(a[href*="/maquinas/"]) { --c: 0 214 170; }
+#sidebar .nav-item:has(a[href*="/about/"]) { --c: 240 246 252; }
+#sidebar .nav-item:has(a[href*="/tags/"]) { --c: 255 94 135; }
+
+/* Distintivo especial para la Wiki en el menú lateral */
+#sidebar .nav-item a[href*="pyrhos-wiki"]::after,
+#sidebar .nav-item a[href*="/wiki/"]::after {
+  content: 'DOCS ↗';
+  font-family: var(--hx-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  padding: 0.12rem 0.45rem;
+  margin-left: auto;
+  border-radius: 4px;
+  background: rgba(255, 107, 43, 0.16);
+  color: #ff6b2b;
+  border: 1px solid rgba(255, 107, 43, 0.4);
+}
 
 /* Fondo al pasar el ratón: su propio color (tenue/oscuro), no verde */
 #sidebar .nav-item:not(.active) .nav-link:hover { letter-spacing: 0.04em; }

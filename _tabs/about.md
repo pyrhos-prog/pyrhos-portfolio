@@ -2,7 +2,7 @@
 # the default layout is 'page'
 title: Sobre mí
 icon: fas fa-info-circle
-order: 7
+order: 8
 ---
 
 <div class="hx-about-ava"><img src="{{ '/assets/img/perfil.png' | relative_url }}" alt="Pyrhos"></div>
