@@ -43,7 +43,16 @@
 
       columns.forEach((y, i) => {
         const ch = chars[Math.floor(Math.random() * chars.length)];
-        ctx.fillStyle = Math.random() > 0.96 ? '#e8ffd0' : '#9fef00';
+        const r = Math.random();
+        if (r > 0.96) {
+          ctx.fillStyle = '#ffffff'; // Chispa incandescente blanca
+        } else if (r > 0.82) {
+          ctx.fillStyle = '#ffb703'; // Resplandor ámbar / oro fundido
+        } else if (r < 0.015) {
+          ctx.fillStyle = '#00f0ff'; // Arco de plasma cian láser
+        } else {
+          ctx.fillStyle = '#ff6b2b'; // Naranja brasa digital Cyber-Ember
+        }
         ctx.fillText(ch, i * size, y * size);
         columns[i] = y * size > height && Math.random() > 0.975 ? 0 : y + 1;
       });
